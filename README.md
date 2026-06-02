@@ -2,7 +2,7 @@
 
 Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
 
-This repository is being built in phases. The current implementation includes **Phases 1-5**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, server-side Flutterwave payment initialization, and payment success/failed pages with server-side verification. Admin functionality is planned for later phases and is not wired yet.
+This repository is being built in phases. The current implementation includes **Phases 1-7**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, server-side Flutterwave payment initialization, payment success/failed pages with server-side verification, and a protected Supabase Auth admin area for dashboard stats and registration management.
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@ This repository is being built in phases. The current implementation includes **
 - Zod
 - Supabase
 - Flutterwave
-- Planned later: admin dashboard
+- Supabase Auth admin login
 
 ## Local Setup
 
@@ -50,6 +50,8 @@ The homepage can run without environment variables. Live registration plus check
 - Learners are redirected to Flutterwave checkout without exposing `FLUTTERWAVE_SECRET_KEY`
 - `/payment/success` verifies Flutterwave transactions server-side and updates paid registrations
 - `/payment/failed` gives learners retry/support options for incomplete payments
+- Supabase Auth admin login at `/admin`
+- Protected admin dashboard, registrations table with search/status filter, detail page, manual payment status updates, and settings placeholder
 - Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
 - Brand color palette implemented in Tailwind theme tokens
 
@@ -114,7 +116,13 @@ Phase 4 creates Flutterwave checkout links server-side after the registration re
 
 ## Admin Login Setup Notes
 
-Admin authentication is planned for a later phase using Supabase Auth. Once implemented, create admin users in the Supabase dashboard and protect admin routes server-side.
+Admin authentication uses Supabase Auth. Create admin users in the Supabase dashboard under Authentication, then sign in at `/admin`. Protected admin pages call server-side session checks before loading registration data. Current admin routes include:
+
+- `/admin` — login page
+- `/admin/dashboard` — total, paid, pending, failed, and recent registrations
+- `/admin/registrations` — searchable/filterable registration table with CSV export
+- `/admin/registrations/[id]` — detailed record page with manual payment update actions
+- `/admin/settings` — placeholder settings page backed by config constants
 
 ## Security Notes
 
