@@ -2,7 +2,7 @@
 
 Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
 
-This repository is being built in phases. The current implementation is **Phase 1 only**: project foundation, Tailwind design system, reusable homepage components, responsive layout, and Framer Motion animations. Supabase, Flutterwave, registration form validation, and admin functionality are planned for later phases and are not wired yet.
+This repository is being built in phases. The current implementation includes **Phase 1 and Phase 2**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, and a premium `/registration` page with React Hook Form + Zod validation. Supabase, Flutterwave payment, and admin functionality are planned for later phases and are not wired yet.
 
 ## Tech Stack
 
@@ -11,7 +11,9 @@ This repository is being built in phases. The current implementation is **Phase 
 - Tailwind CSS
 - Framer Motion
 - Lucide React
-- Planned later: Supabase, Flutterwave, React Hook Form, Zod
+- React Hook Form
+- Zod
+- Planned later: Supabase and Flutterwave integration
 
 ## Local Setup
 
@@ -30,20 +32,22 @@ Copy `.env.example` to `.env.local` when later phases are implemented:
 cp .env.example .env.local
 ```
 
-Phase 1 does not require environment variables to run the homepage.
+Phase 1 and Phase 2 do not require environment variables to run the homepage or registration form preview.
 
-## Current Phase 1 Scope
+## Current Scope
 
 - Premium homepage for Know It Africa
 - Sticky responsive header with mobile menu
 - Animated hero section with glow and digital grid styling
 - About, programs, bootcamp, audience, partnerships, registration-flow explainer, contact, and footer sections
-- Reusable components for buttons, cards, badges, layout shells, and site sections
+- Premium `/registration` page with multi-section student, contact, and program-detail form
+- React Hook Form + Zod validation with friendly error messages and loading state
+- Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
 - Brand color palette implemented in Tailwind theme tokens
 
 ## Planned Supabase Setup
 
-Later phases will add Supabase Auth and database persistence. The intended registrations table is:
+Later phases will add Supabase Auth and database persistence. The registration form currently validates input only and does not save records yet. The intended registrations table is:
 
 ```sql
 create table if not exists registrations (
@@ -79,7 +83,7 @@ create table if not exists registrations (
 
 ## Planned Flutterwave Setup
 
-Later phases will create server-only payment initialization and verification routes. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
+Later phases will create server-only payment initialization and verification routes. The `/registration` submit button currently validates the form and shows a preview confirmation only; it does not redirect to payment yet. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
 
 ## Vercel Deployment Notes
 
