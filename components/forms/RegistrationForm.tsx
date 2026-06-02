@@ -86,7 +86,9 @@ export function RegistrationForm() {
     const result = await createRegistration(values);
 
     if (!result.ok) {
-      setServerError(result.message);
+      setServerError(
+        result.registrationId ? `${result.message} Registration ID: ${result.registrationId}` : result.message,
+      );
 
       if (result.fieldErrors) {
         Object.entries(result.fieldErrors).forEach(([field, message]) => {
@@ -100,6 +102,9 @@ export function RegistrationForm() {
     }
 
     setRegistrationResult(result);
+    window.setTimeout(() => {
+      window.location.assign(result.checkoutUrl);
+    }, 650);
   }
 
   return (
@@ -226,11 +231,17 @@ export function RegistrationForm() {
               <CheckCircle2 className="h-5 w-5 text-success" /> Registration saved successfully
             </div>
             <p>
-              Thanks, {registrationResult.studentName}. Your registration has been saved with payment status set to pending.
+              Thanks, {registrationResult.studentName}. Your registration has been saved with payment status set to pending. Redirecting you to Flutterwave checkout now.
             </p>
-            <div className="mt-4 rounded-2xl bg-white/70 p-4">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-primary-blue">Registration ID</p>
-              <p className="mt-1 text-2xl font-black text-royal">{registrationResult.registrationId}</p>
+            <div className="mt-4 grid gap-3 rounded-2xl bg-white/70 p-4 sm:grid-cols-2">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-primary-blue">Registration ID</p>
+                <p className="mt-1 text-2xl font-black text-royal">{registrationResult.registrationId}</p>
+              </div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-primary-blue">Payment Reference</p>
+                <p className="mt-1 break-all text-sm font-black text-royal">{registrationResult.paymentReference}</p>
+              </div>
             </div>
           </div>
         ) : null}
@@ -241,7 +252,7 @@ export function RegistrationForm() {
           className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-black text-royal shadow-gold transition duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
         >
           {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShieldCheck className="h-5 w-5" />}
-          {isSubmitting ? "Saving Registration..." : "Save Registration"}
+          {isSubmitting ? "Creating Checkout..." : "Save Registration & Continue to Payment"}
         </button>
       </form>
 
@@ -259,7 +270,7 @@ export function RegistrationForm() {
           </div>
           <h3 className="text-xl font-black text-royal">Payment security note</h3>
           <p className="mt-3 text-sm leading-7 text-muted-text">
-            Your registration is saved first with payment status set to pending. Flutterwave checkout will be connected in the next phase.
+            Your registration is saved first with payment status set to pending, then you are redirected to secure Flutterwave checkout. Secret payment keys stay on the server.
           </p>
         </div>
         <div className="rounded-[2rem] border border-gold/20 bg-gold/10 p-6">

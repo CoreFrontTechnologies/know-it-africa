@@ -1,5 +1,6 @@
 "use server";
 
+import { initializeFlutterwavePayment } from "@/lib/flutterwave";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { registrationSchema, type RegistrationFormValues } from "@/lib/validators/registration";
 
@@ -25,6 +26,7 @@ type RegistrationPayload = {
   internet_access: string;
   reason_for_joining: string;
   payment_status: "pending";
+  payment_reference: string;
   amount: number;
 };
 
@@ -35,11 +37,15 @@ export type CreateRegistrationResult =
       studentName: string;
       paymentStatus: "pending";
       amount: number;
+      paymentReference: string;
+      checkoutUrl: string;
     }
   | {
       ok: false;
       message: string;
       fieldErrors?: Partial<Record<keyof RegistrationFormValues, string>>;
+      registrationId?: string;
+      paymentReference?: string;
     };
 
 function generateRegistrationId() {
@@ -49,7 +55,12 @@ function generateRegistrationId() {
   return `KIA-${year}-${random}`;
 }
 
-function toRegistrationPayload(values: RegistrationFormValues, registrationId: string): RegistrationPayload {
+
+function generatePaymentReference(registrationId: string) {
+  return `${registrationId}-${Date.now()}`;
+}
+
+function toRegistrationPayload(values: RegistrationFormValues, registrationId: string, paymentReference: string): RegistrationPayload {
   return {
     registration_id: registrationId,
     full_name: values.fullName,
@@ -72,6 +83,7 @@ function toRegistrationPayload(values: RegistrationFormValues, registrationId: s
     internet_access: values.internetAccess,
     reason_for_joining: values.reasonForJoining,
     payment_status: "pending",
+    payment_reference: paymentReference,
     amount: 10000,
   };
 }
@@ -115,18 +127,43 @@ export async function createRegistration(values: RegistrationFormValues): Promis
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const registrationId = generateRegistrationId();
-    const payload = toRegistrationPayload(parsed.data, registrationId);
+    const paymentReference = generatePaymentReference(registrationId);
+    const payload = toRegistrationPayload(parsed.data, registrationId, paymentReference);
 
     const { error } = await supabase.from("registrations").insert(payload);
 
     if (!error) {
-      return {
-        ok: true,
-        registrationId,
-        studentName: parsed.data.fullName,
-        paymentStatus: "pending",
-        amount: payload.amount,
-      };
+      try {
+        const payment = await initializeFlutterwavePayment({
+          amount: payload.amount,
+          txRef: paymentReference,
+          registrationId,
+          studentName: parsed.data.fullName,
+          studentPhone: parsed.data.studentPhone,
+          guardianEmail: parsed.data.guardianEmail,
+          programTitle: "AI & Software Development Bootcamp",
+        });
+
+        return {
+          ok: true,
+          registrationId,
+          studentName: parsed.data.fullName,
+          paymentStatus: "pending",
+          amount: payload.amount,
+          paymentReference: payment.paymentReference,
+          checkoutUrl: payment.checkoutUrl,
+        };
+      } catch (paymentError) {
+        console.error("Flutterwave initialization error", paymentError);
+
+        return {
+          ok: false,
+          message:
+            "Your registration was saved, but we could not create a Flutterwave checkout link. Please contact Know It Africa on WhatsApp with your registration ID.",
+          registrationId,
+          paymentReference,
+        };
+      }
     }
 
     if (error.code === "23505") {

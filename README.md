@@ -2,7 +2,7 @@
 
 Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
 
-This repository is being built in phases. The current implementation includes **Phases 1-3**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, and Supabase persistence for registration submissions. Flutterwave payment and admin functionality are planned for later phases and are not wired yet.
+This repository is being built in phases. The current implementation includes **Phases 1-4**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, and server-side Flutterwave payment initialization. Payment verification and admin functionality are planned for later phases and are not wired yet.
 
 ## Tech Stack
 
@@ -14,7 +14,8 @@ This repository is being built in phases. The current implementation includes **
 - React Hook Form
 - Zod
 - Supabase
-- Planned later: Flutterwave integration
+- Flutterwave
+- Planned later: payment verification and admin dashboard
 
 ## Local Setup
 
@@ -33,7 +34,7 @@ Copy `.env.example` to `.env.local` when later phases are implemented:
 cp .env.example .env.local
 ```
 
-The homepage can run without environment variables. Live registration saving requires the Supabase variables in `.env.local`.
+The homepage can run without environment variables. Live registration plus checkout requires the Supabase and Flutterwave variables in `.env.local`.
 
 ## Current Scope
 
@@ -45,12 +46,14 @@ The homepage can run without environment variables. Live registration saving req
 - React Hook Form + Zod validation with friendly error messages and loading state
 - Server-side Supabase insert for registrations with generated `KIA-[YEAR]-[SHORT_RANDOM]` registration IDs
 - New registrations are saved with `payment_status = pending`
+- Server-side Flutterwave checkout initialization after the registration record is created
+- Learners are redirected to Flutterwave checkout without exposing `FLUTTERWAVE_SECRET_KEY`
 - Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
 - Brand color palette implemented in Tailwind theme tokens
 
 ## Planned Supabase Setup
 
-Phase 3 adds Supabase persistence for public registration submissions. Run `database/schema.sql` in the Supabase SQL editor before submitting the live form. The intended registrations table is:
+Phase 3 added Supabase persistence for public registration submissions. Run `database/schema.sql` in the Supabase SQL editor before submitting the live form. The intended registrations table is:
 
 ```sql
 create table if not exists registrations (
@@ -91,13 +94,14 @@ create table if not exists registrations (
 2. Run `database/schema.sql` in the Supabase SQL editor.
 3. Copy `.env.example` to `.env.local`.
 4. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`.
-5. Restart `npm run dev`.
+5. Add `FLUTTERWAVE_SECRET_KEY` and `NEXT_PUBLIC_SITE_URL` for checkout initialization.
+6. Restart `npm run dev`.
 
 The service-role key is used only by server-side code to insert registration records. Never expose it in client components.
 
-## Planned Flutterwave Setup
+## Flutterwave Setup
 
-Later phases will create server-only payment initialization and verification routes. The `/registration` submit button currently saves the registration and leaves payment status as pending; it does not redirect to payment yet. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
+Phase 4 creates Flutterwave checkout links server-side after the registration record is saved. The `/registration` submit button now saves the registration, keeps payment status as pending, creates a Flutterwave payment session, and redirects the learner to checkout. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts. Payment success/failure verification pages are planned for the next phase.
 
 ## Vercel Deployment Notes
 
