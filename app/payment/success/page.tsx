@@ -56,7 +56,7 @@ export default async function PaymentSuccessPage({ searchParams }: PaymentSucces
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-light-bg px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <main id="main-content" className="min-h-screen bg-light-bg px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <section className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-white shadow-luxury">
           <div className={`pattern-grid px-6 py-12 text-white sm:px-10 ${isPaid ? "bg-royal" : isFailed ? "bg-slate-950" : "bg-primary-blue"}`}>
             <div className="mx-auto max-w-3xl text-center">

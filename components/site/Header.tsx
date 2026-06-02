@@ -27,6 +27,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-royal/5 bg-white/78 backdrop-blur-2xl">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-black focus:text-royal">
+        Skip to main content
+      </a>
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Brand />
         <div className="hidden items-center gap-8 lg:flex">

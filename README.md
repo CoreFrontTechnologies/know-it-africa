@@ -28,13 +28,13 @@ Visit `http://localhost:3000`.
 
 ## Environment Variables
 
-Copy `.env.example` to `.env.local` when later phases are implemented:
+Copy `.env.example` to `.env.local` for local development:
 
 ```bash
 cp .env.example .env.local
 ```
 
-The homepage can run without environment variables. Live registration plus checkout requires the Supabase and Flutterwave variables in `.env.local`.
+The homepage can run without environment variables. Live registration, checkout, payment verification, and admin login require the Supabase and Flutterwave variables in `.env.local` or Vercel Project Settings.
 
 ## Current Scope
 
@@ -110,9 +110,20 @@ Phase 4 creates Flutterwave checkout links server-side after the registration re
 ## Vercel Deployment Notes
 
 1. Push the repository to GitHub.
-2. Import the project into Vercel.
-3. Add environment variables from `.env.example` when payment, registration, and admin features are implemented.
-4. Run the default Vercel Next.js build command: `npm run build`.
+2. Import the project into Vercel as a Next.js project.
+3. Add all required environment variables from `.env.example` in Vercel Project Settings.
+4. Set `NEXT_PUBLIC_SITE_URL` to your production domain, for example `https://www.knowitafrica.com`.
+5. Run `database/schema.sql` in Supabase before testing the live registration form.
+6. Create Supabase Auth admin users before testing `/admin`.
+7. Deploy with the default Vercel build command: `npm run build`.
+
+Production readiness checklist:
+
+- Confirm `SUPABASE_SERVICE_ROLE_KEY` and `FLUTTERWAVE_SECRET_KEY` are server-only Vercel environment variables.
+- Confirm Flutterwave is using the correct test/live keys for the deployment environment.
+- Confirm payment redirects point to `/payment/success` on the production domain.
+- Confirm the WhatsApp group link is never published in the UI; send it privately after verified payment.
+- Run `npm run typecheck`, `npm run lint`, and `npm run build` before production deployment.
 
 ## Admin Login Setup Notes
 

@@ -3,6 +3,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/lib/constants";
+import { retryRegistrationPayment } from "@/app/payment/actions";
 import { verifyRegistrationPayment } from "@/lib/payments/verification";
 
 type PaymentFailedPageProps = {
@@ -37,7 +38,7 @@ export default async function PaymentFailedPage({ searchParams }: PaymentFailedP
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-light-bg px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <main id="main-content" className="min-h-screen bg-light-bg px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <section className="mx-auto max-w-4xl overflow-hidden rounded-[2rem] bg-white shadow-luxury">
           <div className="pattern-grid bg-slate-950 px-6 py-12 text-center text-white sm:px-10">
             <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-white/10 backdrop-blur">
@@ -67,9 +68,18 @@ export default async function PaymentFailedPage({ searchParams }: PaymentFailedP
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="/registration" showArrow>
-                <RotateCcw className="h-4 w-4" /> Try Payment Again
-              </Button>
+              {registrationId ? (
+                <form action={retryRegistrationPayment}>
+                  <input type="hidden" name="registrationId" value={registrationId} />
+                  <button className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 text-sm font-black text-royal shadow-gold transition hover:-translate-y-0.5 sm:w-auto">
+                    <RotateCcw className="h-4 w-4" /> Try Payment Again
+                  </button>
+                </form>
+              ) : (
+                <Button href="/registration" showArrow>
+                  <RotateCcw className="h-4 w-4" /> Start Registration Again
+                </Button>
+              )}
               <Button href={supportLink(registrationId)} variant="navy" external>
                 <MessageCircle className="h-4 w-4" /> Contact Support on WhatsApp
               </Button>

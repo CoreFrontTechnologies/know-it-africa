@@ -23,7 +23,7 @@ export default function RegistrationPage() {
   return (
     <>
       <Header />
-      <main className="bg-light-bg">
+      <main id="main-content" className="bg-light-bg">
         <section className="pattern-grid relative overflow-hidden bg-royal px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
           <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-gold/20 blur-3xl" />
           <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-primary-blue/70 blur-3xl" />
