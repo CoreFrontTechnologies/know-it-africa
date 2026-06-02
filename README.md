@@ -2,7 +2,7 @@
 
 Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
 
-This repository is being built in phases. The current implementation includes **Phases 1-4**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, and server-side Flutterwave payment initialization. Payment verification and admin functionality are planned for later phases and are not wired yet.
+This repository is being built in phases. The current implementation includes **Phases 1-5**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, server-side Flutterwave payment initialization, and payment success/failed pages with server-side verification. Admin functionality is planned for later phases and is not wired yet.
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@ This repository is being built in phases. The current implementation includes **
 - Zod
 - Supabase
 - Flutterwave
-- Planned later: payment verification and admin dashboard
+- Planned later: admin dashboard
 
 ## Local Setup
 
@@ -48,6 +48,8 @@ The homepage can run without environment variables. Live registration plus check
 - New registrations are saved with `payment_status = pending`
 - Server-side Flutterwave checkout initialization after the registration record is created
 - Learners are redirected to Flutterwave checkout without exposing `FLUTTERWAVE_SECRET_KEY`
+- `/payment/success` verifies Flutterwave transactions server-side and updates paid registrations
+- `/payment/failed` gives learners retry/support options for incomplete payments
 - Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
 - Brand color palette implemented in Tailwind theme tokens
 
@@ -101,7 +103,7 @@ The service-role key is used only by server-side code to insert registration rec
 
 ## Flutterwave Setup
 
-Phase 4 creates Flutterwave checkout links server-side after the registration record is saved. The `/registration` submit button now saves the registration, keeps payment status as pending, creates a Flutterwave payment session, and redirects the learner to checkout. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts. Payment success/failure verification pages are planned for the next phase.
+Phase 4 creates Flutterwave checkout links server-side after the registration record is saved. The `/registration` submit button saves the registration, keeps payment status as pending, creates a Flutterwave payment session, and redirects the learner to checkout. Phase 5 adds `/payment/success` and `/payment/failed`; the success page verifies Flutterwave transactions server-side, updates valid records to `paid`, saves `flutterwave_transaction_id`, and shows a WhatsApp confirmation button. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
 
 ## Vercel Deployment Notes
 

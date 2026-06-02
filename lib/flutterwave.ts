@@ -88,3 +88,53 @@ export async function initializeFlutterwavePayment({
     paymentReference: txRef,
   };
 }
+
+
+type FlutterwaveVerifyResponse = {
+  status: string;
+  message: string;
+  data?: {
+    id: number;
+    tx_ref: string;
+    flw_ref?: string;
+    amount: number;
+    currency: string;
+    status: string;
+    customer?: {
+      email?: string;
+      name?: string;
+      phone_number?: string;
+    };
+  };
+};
+
+export async function verifyFlutterwaveTransaction(transactionId: string) {
+  const response = await fetch(`https://api.flutterwave.com/v3/transactions/${encodeURIComponent(transactionId)}/verify`, {
+    headers: {
+      Authorization: `Bearer ${getFlutterwaveSecretKey()}`,
+    },
+    cache: "no-store",
+  });
+
+  let payload: FlutterwaveVerifyResponse | null = null;
+
+  try {
+    payload = (await response.json()) as FlutterwaveVerifyResponse;
+  } catch {
+    payload = null;
+  }
+
+  if (!response.ok || payload?.status !== "success" || !payload.data) {
+    throw new Error(payload?.message || "Flutterwave transaction could not be verified.");
+  }
+
+  return {
+    id: payload.data.id,
+    txRef: payload.data.tx_ref,
+    flutterwaveReference: payload.data.flw_ref,
+    amount: payload.data.amount,
+    currency: payload.data.currency,
+    status: payload.data.status,
+    customer: payload.data.customer,
+  };
+}
