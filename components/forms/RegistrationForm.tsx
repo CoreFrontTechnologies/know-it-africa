@@ -1,9 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2, LockKeyhole, ShieldCheck } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, LockKeyhole, ShieldCheck } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
+import { createRegistration, type CreateRegistrationResult } from "@/app/registration/actions";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
@@ -63,12 +64,14 @@ function FormSection({
 }
 
 export function RegistrationForm() {
-  const [submittedPreview, setSubmittedPreview] = useState<RegistrationFormValues | null>(null);
+  const [registrationResult, setRegistrationResult] = useState<Extract<CreateRegistrationResult, { ok: true }> | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
   const today = new Date().toISOString().split("T")[0];
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
@@ -77,9 +80,26 @@ export function RegistrationForm() {
   });
 
   async function onSubmit(values: RegistrationFormValues) {
-    setSubmittedPreview(null);
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setSubmittedPreview(values);
+    setRegistrationResult(null);
+    setServerError(null);
+
+    const result = await createRegistration(values);
+
+    if (!result.ok) {
+      setServerError(result.message);
+
+      if (result.fieldErrors) {
+        Object.entries(result.fieldErrors).forEach(([field, message]) => {
+          if (message) {
+            setError(field as keyof RegistrationFormValues, { type: "server", message });
+          }
+        });
+      }
+
+      return;
+    }
+
+    setRegistrationResult(result);
   }
 
   return (
@@ -191,14 +211,27 @@ export function RegistrationForm() {
           </div>
         </FormSection>
 
-        {submittedPreview ? (
+        {serverError ? (
+          <div className="rounded-[1.5rem] border border-red-200 bg-red-50 p-5 text-sm font-semibold leading-7 text-red-700">
+            <div className="mb-2 flex items-center gap-2 text-base font-black text-red-700">
+              <AlertCircle className="h-5 w-5" /> Registration could not be saved
+            </div>
+            <p>{serverError}</p>
+          </div>
+        ) : null}
+
+        {registrationResult ? (
           <div className="rounded-[1.5rem] border border-success/20 bg-success/10 p-5 text-sm font-semibold leading-7 text-royal">
             <div className="mb-2 flex items-center gap-2 text-base font-black text-royal">
-              <CheckCircle2 className="h-5 w-5 text-success" /> Registration form validated
+              <CheckCircle2 className="h-5 w-5 text-success" /> Registration saved successfully
             </div>
             <p>
-              Thanks, {submittedPreview.fullName}. This Phase 2 preview validates the registration form only. Payment and database saving will be connected in later phases.
+              Thanks, {registrationResult.studentName}. Your registration has been saved with payment status set to pending.
             </p>
+            <div className="mt-4 rounded-2xl bg-white/70 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-primary-blue">Registration ID</p>
+              <p className="mt-1 text-2xl font-black text-royal">{registrationResult.registrationId}</p>
+            </div>
           </div>
         ) : null}
 
@@ -208,7 +241,7 @@ export function RegistrationForm() {
           className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-black text-royal shadow-gold transition duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
         >
           {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShieldCheck className="h-5 w-5" />}
-          {isSubmitting ? "Checking Your Details..." : "Continue to Payment"}
+          {isSubmitting ? "Saving Registration..." : "Save Registration"}
         </button>
       </form>
 
@@ -226,7 +259,7 @@ export function RegistrationForm() {
           </div>
           <h3 className="text-xl font-black text-royal">Payment security note</h3>
           <p className="mt-3 text-sm leading-7 text-muted-text">
-            Payment is not connected in Phase 2. In the next phases, details will be saved securely before redirecting learners to Flutterwave checkout.
+            Your registration is saved first with payment status set to pending. Flutterwave checkout will be connected in the next phase.
           </p>
         </div>
         <div className="rounded-[2rem] border border-gold/20 bg-gold/10 p-6">

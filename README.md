@@ -2,7 +2,7 @@
 
 Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
 
-This repository is being built in phases. The current implementation includes **Phase 1 and Phase 2**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, and a premium `/registration` page with React Hook Form + Zod validation. Supabase, Flutterwave payment, and admin functionality are planned for later phases and are not wired yet.
+This repository is being built in phases. The current implementation includes **Phases 1-3**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, and Supabase persistence for registration submissions. Flutterwave payment and admin functionality are planned for later phases and are not wired yet.
 
 ## Tech Stack
 
@@ -13,7 +13,8 @@ This repository is being built in phases. The current implementation includes **
 - Lucide React
 - React Hook Form
 - Zod
-- Planned later: Supabase and Flutterwave integration
+- Supabase
+- Planned later: Flutterwave integration
 
 ## Local Setup
 
@@ -32,7 +33,7 @@ Copy `.env.example` to `.env.local` when later phases are implemented:
 cp .env.example .env.local
 ```
 
-Phase 1 and Phase 2 do not require environment variables to run the homepage or registration form preview.
+The homepage can run without environment variables. Live registration saving requires the Supabase variables in `.env.local`.
 
 ## Current Scope
 
@@ -42,12 +43,14 @@ Phase 1 and Phase 2 do not require environment variables to run the homepage or 
 - About, programs, bootcamp, audience, partnerships, registration-flow explainer, contact, and footer sections
 - Premium `/registration` page with multi-section student, contact, and program-detail form
 - React Hook Form + Zod validation with friendly error messages and loading state
+- Server-side Supabase insert for registrations with generated `KIA-[YEAR]-[SHORT_RANDOM]` registration IDs
+- New registrations are saved with `payment_status = pending`
 - Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
 - Brand color palette implemented in Tailwind theme tokens
 
 ## Planned Supabase Setup
 
-Later phases will add Supabase Auth and database persistence. The registration form currently validates input only and does not save records yet. The intended registrations table is:
+Phase 3 adds Supabase persistence for public registration submissions. Run `database/schema.sql` in the Supabase SQL editor before submitting the live form. The intended registrations table is:
 
 ```sql
 create table if not exists registrations (
@@ -81,9 +84,20 @@ create table if not exists registrations (
 );
 ```
 
+
+## Supabase Registration Setup
+
+1. Create a Supabase project.
+2. Run `database/schema.sql` in the Supabase SQL editor.
+3. Copy `.env.example` to `.env.local`.
+4. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`.
+5. Restart `npm run dev`.
+
+The service-role key is used only by server-side code to insert registration records. Never expose it in client components.
+
 ## Planned Flutterwave Setup
 
-Later phases will create server-only payment initialization and verification routes. The `/registration` submit button currently validates the form and shows a preview confirmation only; it does not redirect to payment yet. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
+Later phases will create server-only payment initialization and verification routes. The `/registration` submit button currently saves the registration and leaves payment status as pending; it does not redirect to payment yet. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
 
 ## Vercel Deployment Notes
 
