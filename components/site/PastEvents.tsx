@@ -7,12 +7,12 @@ import { BrandMark } from "@/components/site/BrandMark";
 import { cn } from "@/lib/utils";
 
 const toneClasses = {
-  blue: "from-royal via-primary-blue to-[#0B4DC2]",
-  red: "from-[#4A0C0C] via-[#8B1010] to-[#D71920]",
-  navy: "from-royal via-[#0B2A72] to-primary-blue",
+  blue: "from-[#03123B] via-primary-blue to-[#0B4DC2]",
+  red: "from-[#250404] via-[#7A0B0B] to-[#B5121B]",
+  navy: "from-[#020A22] via-royal to-primary-blue",
 };
 
-const featuredEvents = events.slice(0, 3);
+const featuredEvents = events.filter((event) => event.category !== "future").slice(0, 3);
 
 export function PastEvents() {
   return (
@@ -45,15 +45,18 @@ export function PastEvents() {
       <div className="mt-12 grid gap-6 lg:grid-cols-3">
         {featuredEvents.map((event) => (
           <article key={event.slug} className="overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
-            <div className={cn("relative bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[event.tone])}>
-              <div className="flex items-start justify-between gap-4">
+            <div className={cn("relative overflow-hidden bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[event.tone])}>
+              <div className="absolute inset-0 bg-royal/35" />
+              <div className="relative z-10 flex items-start justify-between gap-4">
                 <BrandMark className="bg-white/95" />
-                <span className="rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-gold ring-1 ring-white/15">
+                <span className="rounded-full bg-gold px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-royal shadow-gold">
                   {event.status}
                 </span>
               </div>
-              <p className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-gold">{event.audience}</p>
-              <h3 className="mt-3 text-2xl font-black leading-tight tracking-tight">{event.title}</h3>
+              <div className="relative z-10">
+                <p className="mt-8 w-fit rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-gold ring-1 ring-white/20">{event.audience}</p>
+                <h3 className="mt-4 text-2xl font-black leading-tight tracking-tight text-white drop-shadow">{event.title}</h3>
+              </div>
             </div>
             <div className="space-y-4 p-6">
               <p className="text-sm font-semibold leading-7 text-muted-text">{event.summary}</p>

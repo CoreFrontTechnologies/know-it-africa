@@ -1,4 +1,4 @@
-import { CalendarDays, CheckCircle2, Clock3, MapPin } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, Inbox, MapPin, Sparkles } from "lucide-react";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { BrandMark } from "@/components/site/BrandMark";
@@ -12,22 +12,25 @@ export const metadata = {
 };
 
 const toneClasses = {
-  blue: "from-royal via-primary-blue to-[#0B4DC2]",
-  red: "from-[#4A0C0C] via-[#8B1010] to-[#D71920]",
-  navy: "from-royal via-[#0B2A72] to-primary-blue",
+  blue: "from-[#03123B] via-primary-blue to-[#0B4DC2]",
+  red: "from-[#250404] via-[#7A0B0B] to-[#B5121B]",
+  navy: "from-[#020A22] via-royal to-primary-blue",
 };
 
 function EventCard({ event }: { event: EventItem }) {
   return (
-    <article className="overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-luxury">
-      <div className={cn("bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[event.tone])}>
-        <div className="flex items-start justify-between gap-4">
-          <BrandMark className="bg-white/95" />
-          <span className="rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-gold ring-1 ring-white/15">{event.status}</span>
+    <article className="overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-luxury transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+      <div className={cn("relative overflow-hidden bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[event.tone])}>
+        <div className="absolute inset-0 bg-royal/35" />
+        <div className="relative z-10 flex items-start justify-between gap-4">
+          <BrandMark className="bg-white" />
+          <span className="rounded-full bg-gold px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-royal shadow-gold">{event.status}</span>
         </div>
-        <p className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-gold">{event.audience}</p>
-        <h2 className="mt-3 text-3xl font-black leading-tight tracking-tight">{event.title}</h2>
-        <p className="mt-4 text-sm font-semibold leading-7 text-white/75">{event.summary}</p>
+        <div className="relative z-10">
+          <p className="mt-8 w-fit rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-gold ring-1 ring-white/20">{event.audience}</p>
+          <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight text-white drop-shadow">{event.title}</h2>
+          <p className="mt-4 text-sm font-semibold leading-7 text-white">{event.summary}</p>
+        </div>
       </div>
       <div className="space-y-5 p-6">
         <div className="grid gap-3 text-sm font-bold text-royal">
@@ -50,16 +53,37 @@ function EventCard({ event }: { event: EventItem }) {
   );
 }
 
+function EmptyEvents({ title }: { title: string }) {
+  return (
+    <div className="rounded-[2rem] border border-dashed border-primary-blue/25 bg-white p-8 text-center shadow-luxury">
+      <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-soft-blue text-primary-blue">
+        <Inbox className="h-6 w-6" />
+      </div>
+      <h3 className="mt-4 text-2xl font-black text-royal">No {title.toLowerCase()} yet</h3>
+      <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-muted-text">
+        We only publish confirmed Know It Africa events. Check back soon or contact the team to discuss school, community, or corporate AI training partnerships.
+      </p>
+      <div className="mt-5 flex justify-center">
+        <Button href="/contact" variant="navy">Discuss an Event</Button>
+      </div>
+    </div>
+  );
+}
+
 function EventGroup({ title, description, events }: { title: string; description: string; events: EventItem[] }) {
   return (
     <section className="mt-16">
       <div className="mb-6 max-w-3xl">
-        <p className="text-sm font-black uppercase tracking-[0.18em] text-primary-blue">{title}</p>
-        <p className="mt-2 text-lg font-semibold leading-8 text-muted-text">{description}</p>
+        <p className="inline-flex items-center gap-2 rounded-full bg-gold/10 px-4 py-2 text-sm font-black uppercase tracking-[0.18em] text-primary-blue"><Sparkles className="h-4 w-4 text-gold" /> {title}</p>
+        <p className="mt-4 text-lg font-semibold leading-8 text-muted-text">{description}</p>
       </div>
-      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
-        {events.map((event) => <EventCard key={event.slug} event={event} />)}
-      </div>
+      {events.length > 0 ? (
+        <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+          {events.map((event) => <EventCard key={event.slug} event={event} />)}
+        </div>
+      ) : (
+        <EmptyEvents title={title} />
+      )}
     </section>
   );
 }
@@ -74,7 +98,7 @@ export default function EventsPage() {
             <div className="max-w-4xl">
               <p className="text-sm font-black uppercase tracking-[0.2em] text-gold">Know It Africa Events</p>
               <h1 className="mt-5 text-5xl font-black tracking-tight sm:text-6xl">Choose the right AI learning experience.</h1>
-              <p className="mt-6 text-lg leading-8 text-white/75">Browse upcoming registration opportunities, review past programs, and see future event directions for schools, youths, and businesses.</p>
+              <p className="mt-6 text-lg leading-8 text-white/85">Browse confirmed upcoming opportunities, review past programs, and watch for future event announcements from Know It Africa.</p>
             </div>
           </div>
         </section>
@@ -82,7 +106,7 @@ export default function EventsPage() {
           <div className="mx-auto max-w-7xl">
             <EventGroup title="Upcoming Events" description="Open or scheduled events learners can register interest for now." events={upcomingEvents} />
             <EventGroup title="Past Events" description="Completed or archived bootcamps and classes from Know It Africa’s learning journey." events={pastEvents} />
-            <EventGroup title="Future Events" description="Planned event formats and partnership-ready programs being developed next." events={futureEvents} />
+            <EventGroup title="Future Events" description="Future events will appear here only when details are confirmed." events={futureEvents} />
           </div>
         </section>
       </main>

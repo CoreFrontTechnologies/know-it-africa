@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { navLinks, siteConfig } from "@/lib/constants";
 import { BrandMark } from "@/components/site/BrandMark";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +40,7 @@ export function Header() {
           ))}
         </div>
         <div className="hidden items-center gap-3 lg:flex">
+          <ThemeToggle />
           <Button href={siteConfig.whatsapp} variant="white" external className="border border-royal/10 px-4 py-2.5">
             <MessageCircle className="h-4 w-4 text-success" /> WhatsApp
           </Button>
@@ -69,6 +71,7 @@ export function Header() {
             </a>
           ))}
           <div className="grid gap-3 pt-2 sm:grid-cols-2">
+            <ThemeToggle className="w-full justify-self-start" />
             <Button href={siteConfig.whatsapp} variant="white" external className="border border-royal/10">
               <MessageCircle className="h-4 w-4 text-success" /> WhatsApp
             </Button>

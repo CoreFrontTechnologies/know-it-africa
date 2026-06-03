@@ -64,3 +64,61 @@ body {
 .text-balance {
   text-wrap: balance;
 }
+
+.theme-dark body {
+  background:
+    radial-gradient(circle at top left, rgba(246, 190, 0, 0.1), transparent 34rem),
+    linear-gradient(180deg, #020B24 0%, #071B4F 48%, #061432 100%);
+  color: #F8FBFF;
+}
+
+.theme-dark header {
+  background: rgba(3, 12, 38, 0.84) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.theme-dark .bg-white {
+  background-color: #071633 !important;
+}
+
+.theme-dark .bg-light-bg {
+  background-color: #051233 !important;
+}
+
+.theme-dark .bg-soft-blue {
+  background-color: #102A61 !important;
+}
+
+.theme-dark .text-royal,
+.theme-dark .text-dark-text,
+.theme-dark .text-slate-700 {
+  color: #F8FBFF !important;
+}
+
+.theme-dark .text-muted-text {
+  color: #B6C3D9 !important;
+}
+
+.theme-dark .border-slate-100,
+.theme-dark .border-slate-200,
+.theme-dark .border-royal\/8,
+.theme-dark .border-royal\/10 {
+  border-color: rgba(255, 255, 255, 0.13) !important;
+}
+
+.theme-dark input,
+.theme-dark select,
+.theme-dark textarea {
+  background: #081B4F;
+  color: #F8FBFF;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.theme-dark input::placeholder,
+.theme-dark textarea::placeholder {
+  color: #91A4C5;
+}
+
+.theme-dark .shadow-luxury {
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+}
