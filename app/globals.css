@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-royal: #071B4F;
+  --color-primary-blue: #07358F;
+  --color-gold: #F6BE00;
+  --color-light-bg: #F8FBFF;
+  --color-soft-blue: #EEF5FF;
+  --color-dark-text: #0F172A;
+  --color-muted-text: #64748B;
+  --color-success: #25D366;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --shadow-luxury: 0 24px 80px rgba(7, 27, 79, 0.14);
+  --shadow-gold: 0 16px 42px rgba(246, 190, 0, 0.28);
+  --radius-4xl: 2rem;
+}
+
+:root {
+  color: #0F172A;
+  background: #F8FBFF;
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(246, 190, 0, 0.12), transparent 32rem),
+    linear-gradient(180deg, #F8FBFF 0%, #FFFFFF 44%, #EEF5FF 100%);
+}
+
+::selection {
+  background: rgba(246, 190, 0, 0.45);
+  color: #071B4F;
+}
+
+.pattern-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 25% 20%, rgba(246, 190, 0, 0.18), transparent 28rem),
+    radial-gradient(circle at 80% 0%, rgba(37, 211, 102, 0.12), transparent 24rem);
+  background-size: 42px 42px, 42px 42px, auto, auto;
+}
+
+.afro-pattern {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(7, 53, 143, 0.12) 1px, transparent 0),
+    linear-gradient(135deg, rgba(246, 190, 0, 0.08) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(7, 27, 79, 0.05) 25%, transparent 25%);
+  background-size: 28px 28px, 34px 34px, 34px 34px;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(22px);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
