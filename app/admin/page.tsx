@@ -4,6 +4,8 @@ import { SectionBadge } from "@/components/site/SectionBadge";
 import { getAdminUser } from "@/lib/admin/auth";
 import { siteConfig } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Admin Login | Know It Africa",
 };

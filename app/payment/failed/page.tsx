@@ -21,6 +21,8 @@ function supportLink(registrationId?: string) {
   return `${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Payment Not Completed | Know It Africa",
   description: "Get help if your Know It Africa bootcamp payment was not completed.",

@@ -1,4 +1,5 @@
 import "server-only";
+import { getSiteUrl } from "@/lib/site-url";
 function getFlutterwaveSecretKey() {
   const key = process.env.FLUTTERWAVE_SECRET_KEY;
 
@@ -9,11 +10,6 @@ function getFlutterwaveSecretKey() {
   return key;
 }
 
-function getSiteUrl() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-  return siteUrl.replace(/\/$/, "");
-}
 
 type InitializeFlutterwavePaymentInput = {
   amount: number;

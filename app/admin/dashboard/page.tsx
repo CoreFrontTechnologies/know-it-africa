@@ -25,6 +25,8 @@ async function getDashboardData() {
   };
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Admin Dashboard | Know It Africa" };
 
 export default async function AdminDashboardPage() {

@@ -30,6 +30,8 @@ function createWhatsAppConfirmationLink({ fullName, registrationId }: { fullName
   return `${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Payment Confirmation | Know It Africa",
   description: "Confirm your Know It Africa bootcamp payment and get WhatsApp confirmation instructions.",

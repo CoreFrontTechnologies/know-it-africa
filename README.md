@@ -109,14 +109,16 @@ Phase 4 creates Flutterwave checkout links server-side after the registration re
 
 ## Vercel Deployment Notes
 
-1. Push the repository to GitHub.
-2. Import the project into Vercel as a Next.js project.
+1. Push the complete working branch to GitHub `main`. The full app lives on the branch that contains `app/admin`, `app/payment`, `app/registration`, and `vercel.json`; do not deploy an older feature branch that only contains the homepage/registration preview.
+2. Import the project into Vercel as a Next.js project. In Vercel, set **Production Branch** to `main`.
 3. In Vercel Project Settings, set the Framework Preset to `Next.js` and ensure the Output Directory is `.next` (or leave the dashboard field empty so the committed `vercel.json` value is used). Do not set the Output Directory to `public`; this app is a Next.js application, not a static export.
 4. Add all required environment variables from `.env.example` in Vercel Project Settings when you are ready to test registration, payments, and admin login. You may deploy the homepage first without keys.
-5. Set `NEXT_PUBLIC_SITE_URL` to your production domain, for example `https://www.knowitafrica.com`.
+5. Set `NEXT_PUBLIC_SITE_URL` to your production domain, for example `https://www.knowitafrica.com`. Include `https://`; the app also normalizes this value safely if the protocol is accidentally omitted.
 6. Run `database/schema.sql` in Supabase before testing the live registration form.
 7. Create Supabase Auth admin users before testing `/admin`.
 8. Deploy with the default Vercel build command: `npm run build`.
+
+If Vercel shows `404: NOT_FOUND`, first confirm you opened a `Ready` deployment URL from the Vercel Deployments tab, then confirm the Git production branch and custom domain point to this project.
 
 Production readiness checklist:
 

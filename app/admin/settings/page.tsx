@@ -2,6 +2,8 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import { requireAdminUser } from "@/lib/admin/auth";
 import { siteConfig } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Admin Settings | Know It Africa" };
 
 export default async function AdminSettingsPage() {

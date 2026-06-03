@@ -34,6 +34,8 @@ async function getRegistrations({ search, status }: { search?: string; status?: 
   return (data ?? []) as RegistrationRecord[];
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Registrations | Know It Africa Admin" };
 
 export default async function AdminRegistrationsPage({ searchParams }: RegistrationsPageProps) {

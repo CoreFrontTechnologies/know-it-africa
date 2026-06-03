@@ -49,6 +49,8 @@ function whatsappLink(registration: RegistrationRecord) {
   return `${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Registration Details | Know It Africa Admin" };
 
 export default async function RegistrationDetailsPage({ params }: RegistrationDetailsPageProps) {
