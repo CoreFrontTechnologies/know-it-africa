@@ -1,0 +1,37 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Know It Africa logo</title>
+  <desc id="desc">A navy human profile with a gold Africa mark and orbiting blue innovation nodes.</desc>
+  <defs>
+    <linearGradient id="head" x1="210" y1="187" x2="355" y2="454" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#143C89"/>
+      <stop offset="1" stop-color="#071B4F"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="206" y1="156" x2="316" y2="286" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3A8"/>
+      <stop offset="0.45" stop-color="#F6BE00"/>
+      <stop offset="1" stop-color="#B98400"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="80" y1="69" x2="430" y2="210" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="0.28" stop-color="#9CA3AF"/>
+      <stop offset="0.55" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#6B7280"/>
+    </linearGradient>
+    <filter id="shadow" x="40" y="20" width="440" height="470" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#071B4F" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M249 146c69 0 125 54 125 121v13c0 13 8 25 20 31l35 18c10 5 12 18 4 26l-27 26c-8 8-12 18-12 29v47H219v-55c0-18-8-35-22-47-30-25-48-63-48-105 0-58 44-104 100-104Z" fill="url(#head)"/>
+    <path d="M246 132c-53 5-94 50-94 105 0 34 16 66 43 87 20 15 31 39 31 64v18h78c-27-27-49-70-37-121 13-53-2-112-21-153Z" fill="#0B2A72" opacity="0.55"/>
+    <path d="M246 144c17 9 29 21 36 37l21 3 9 25-15 17 5 25-24 19-24-5-20 16-31-10 9-29-17-19 9-28 22-2 20-49Z" fill="url(#gold)"/>
+    <path d="M239 154c10 9 16 19 20 31 4 12 13 18 26 18l11 1-7 18 8 19-19 13-22-6-15 15-20-7 5-21-16-15 8-16 18-3 3-47Z" fill="#FFE27A" opacity="0.65"/>
+    <path d="M83 178c55-80 173-131 291-88 40 15 60 41 50 68-11 30-56 46-120 44" stroke="url(#metal)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M104 119c74-47 183-58 255-18 53 29 72 78 43 118-33 46-121 71-217 59" stroke="url(#metal)" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+    <path d="M149 82c87 11 177 62 206 126 22 48 7 87-38 103-47 17-121 5-188-30" stroke="url(#metal)" stroke-width="9" stroke-linecap="round" opacity="0.9"/>
+    <circle cx="159" cy="92" r="17" fill="#123DCE" stroke="#7BA7FF" stroke-width="5"/>
+    <circle cx="371" cy="89" r="15" fill="#123DCE" stroke="#7BA7FF" stroke-width="5"/>
+    <circle cx="424" cy="157" r="18" fill="#123DCE" stroke="#7BA7FF" stroke-width="5"/>
+    <circle cx="304" cy="203" r="12" fill="#123DCE" stroke="#7BA7FF" stroke-width="4"/>
+  </g>
+</svg>

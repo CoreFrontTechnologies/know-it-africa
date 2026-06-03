@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
+import { BrandMark } from "@/components/site/BrandMark";
 import { SectionBadge } from "@/components/site/SectionBadge";
 import { getAdminUser } from "@/lib/admin/auth";
 import { siteConfig } from "@/lib/constants";
@@ -21,7 +22,7 @@ export default async function AdminLoginPage() {
         <div className="grid w-full gap-10 lg:grid-cols-[1fr_480px] lg:items-center">
           <div className="pattern-grid rounded-[2rem] bg-royal p-8 text-white shadow-luxury sm:p-12">
             <div className="mb-8 flex items-center gap-3">
-              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gold text-sm font-black text-royal">KI</div>
+              <BrandMark size="lg" />
               <div>
                 <p className="text-2xl font-black">{siteConfig.name}</p>
                 <p className="text-sm text-white/65">Admin Console</p>

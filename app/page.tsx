@@ -6,6 +6,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { Partnerships } from "@/components/site/Partnerships";
+import { PastEvents } from "@/components/site/PastEvents";
 import { Programs } from "@/components/site/Programs";
 import { RegistrationFlow } from "@/components/site/RegistrationFlow";
 
@@ -19,6 +20,7 @@ export default function Home() {
         <Programs />
         <Bootcamp />
         <Audience />
+        <PastEvents />
         <Partnerships />
         <RegistrationFlow />
         <Contact />

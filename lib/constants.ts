@@ -34,6 +34,7 @@ export const navLinks = [
   { label: "About", href: "#about" },
   { label: "Programs", href: "#programs" },
   { label: "Bootcamp", href: "#bootcamp" },
+  { label: "Events", href: "#events" },
   { label: "Partnerships", href: "#partnerships" },
   { label: "Contact", href: "#contact" },
 ];
@@ -104,6 +105,48 @@ export const bootcampTopics = [
   "AI for Business and Productivity",
   "No-Code Tools and Automation",
   "Final Practical Project + Certificate",
+];
+
+export const pastEvents = [
+  {
+    status: "Past Event",
+    title: "Intensive AI Software Development Bootcamp",
+    audience: "For students in 5 weeks",
+    summary: "A student-focused AI and software development bootcamp promoted with a 50-slot cohort, practical benefits, and an early-bird access offer.",
+    date: "October 18th, 2025",
+    time: "9:00pm Prompt",
+    venue: "Dependable International School, Dakwa",
+    slots: "Only 50 slots available",
+    priceNotes: ["Actual price: ₦50,000", "Early bird: ₦20,000"],
+    benefits: ["Certification", "Practical Thinking", "Product Design Skills", "Career Leverage"],
+    tone: "blue" as const,
+  },
+  {
+    status: "Program Archive",
+    title: "Artificial Intelligence Class for Kids",
+    audience: "Saturdays only",
+    summary: "An intensive software development class for kids designed to empower Africa’s next leaders through practical AI exposure and product skills.",
+    date: "5th July – August 2nd",
+    time: "Saturdays, 9am",
+    venue: "GDSS Dutse",
+    slots: "Kids cohort",
+    priceNotes: ["Early fee: ₦25,000"],
+    benefits: ["Certification", "Practical training", "Product design skills", "Career leverage"],
+    tone: "red" as const,
+  },
+  {
+    status: "Featured Bootcamp",
+    title: "Intensive AI Software Development Bootcamp",
+    audience: "For youths in 5 weeks",
+    summary: "A youth-centered AI and software development bootcamp featuring scholarship support, machine learning, agentic AI, content creation, and certification.",
+    date: "Starts 13th June, 2026",
+    time: "9:00pm Prompt",
+    venue: "LEA Primary School, Angwan Fulani",
+    slots: "Only 50 slots available",
+    priceNotes: ["70% scholarship available"],
+    benefits: ["How to create your AI", "Web and app development with AI", "Content creation with AI", "Machine learning", "Agentic AI", "Certificate"],
+    tone: "navy" as const,
+  },
 ];
 
 export const registrationSteps = [

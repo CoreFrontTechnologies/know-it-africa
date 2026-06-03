@@ -5,15 +5,14 @@ import { Menu, MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { navLinks, siteConfig } from "@/lib/constants";
+import { BrandMark } from "@/components/site/BrandMark";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 function Brand() {
   return (
     <Link href="/" className="flex items-center gap-3">
-      <div className="grid h-12 w-12 place-items-center rounded-2xl bg-royal text-sm font-black text-gold shadow-luxury">
-        KI
-      </div>
+      <BrandMark />
       <div className="leading-tight">
         <p className="text-base font-black tracking-tight text-royal">{siteConfig.name}</p>
         <p className="hidden text-[11px] font-semibold text-muted-text sm:block">{siteConfig.motto}</p>
