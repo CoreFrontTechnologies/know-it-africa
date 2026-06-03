@@ -8,7 +8,6 @@ import { Hero } from "@/components/site/Hero";
 import { Partnerships } from "@/components/site/Partnerships";
 import { PastEvents } from "@/components/site/PastEvents";
 import { Programs } from "@/components/site/Programs";
-import { RegistrationFlow } from "@/components/site/RegistrationFlow";
 
 export default function Home() {
   return (
@@ -22,7 +21,6 @@ export default function Home() {
         <Audience />
         <PastEvents />
         <Partnerships />
-        <RegistrationFlow />
         <Contact />
       </main>
       <Footer />

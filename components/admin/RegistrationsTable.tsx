@@ -41,6 +41,7 @@ export function RegistrationsTable({ registrations, search, status }: { registra
             <tr className="border-b border-slate-100 text-xs font-black uppercase tracking-[0.14em] text-muted-text">
               <th className="px-3 py-4">Registration ID</th>
               <th className="px-3 py-4">Full name</th>
+              <th className="px-3 py-4">Event</th>
               <th className="px-3 py-4">Phone</th>
               <th className="px-3 py-4">Class</th>
               <th className="px-3 py-4">Interest</th>
@@ -54,6 +55,7 @@ export function RegistrationsTable({ registrations, search, status }: { registra
               <tr key={registration.id} className="border-b border-slate-100 last:border-0">
                 <td className="px-3 py-4 font-black text-primary-blue">{registration.registration_id}</td>
                 <td className="px-3 py-4 font-bold text-royal">{registration.full_name}</td>
+                <td className="px-3 py-4 text-muted-text">{registration.event_title ?? "—"}</td>
                 <td className="px-3 py-4 text-muted-text">{registration.student_phone}</td>
                 <td className="px-3 py-4 text-muted-text">{registration.class_category}</td>
                 <td className="px-3 py-4 text-muted-text">{registration.area_of_interest}</td>

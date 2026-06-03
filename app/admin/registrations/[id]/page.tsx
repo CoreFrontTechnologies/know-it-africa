@@ -71,6 +71,8 @@ export default async function RegistrationDetailsPage({ params }: RegistrationDe
 
   const detailGroups = [
     [
+      ["Event", registration.event_title],
+      ["Event Slug", registration.event_slug],
       ["Full Name", registration.full_name],
       ["Date of Birth", registration.date_of_birth],
       ["Gender", registration.gender],

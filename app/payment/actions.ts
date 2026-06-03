@@ -46,8 +46,8 @@ export async function retryRegistrationPayment(formData: FormData) {
       registrationId: registration.registration_id,
       studentName: registration.full_name,
       studentPhone: registration.student_phone ?? "",
-      guardianEmail: registration.guardian_email ?? "info@knowitafrica.com",
-      programTitle: siteConfig.programTitle,
+      guardianEmail: registration.guardian_email ?? siteConfig.email,
+      programTitle: registration.event_title ?? siteConfig.programTitle,
     });
 
     redirect(payment.checkoutUrl);

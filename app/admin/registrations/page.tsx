@@ -21,7 +21,7 @@ async function getRegistrations({ search, status }: { search?: string; status?: 
   if (status) query = query.eq("payment_status", status as PaymentStatus);
   if (search) {
     const term = search.replaceAll("%", "").trim();
-    query = query.or(`full_name.ilike.%${term}%,student_phone.ilike.%${term}%,registration_id.ilike.%${term}%`);
+    query = query.or(`full_name.ilike.%${term}%,student_phone.ilike.%${term}%,registration_id.ilike.%${term}%,event_title.ilike.%${term}%`);
   }
 
   const { data, error } = await query;
@@ -51,9 +51,9 @@ export default async function AdminRegistrationsPage({ searchParams }: Registrat
         <div>
           <p className="text-sm font-black uppercase tracking-[0.18em] text-primary-blue">Registrations</p>
           <h1 className="mt-2 text-4xl font-black tracking-tight text-royal">All student registrations</h1>
-          <p className="mt-2 text-sm font-semibold text-muted-text">Search by name, phone, or registration ID. Filter by payment status.</p>
+          <p className="mt-2 text-sm font-semibold text-muted-text">Search by name, phone, registration ID, or event. Filter by payment status.</p>
         </div>
-        <a href={`data:text/csv;charset=utf-8,${encodeURIComponent(["Registration ID,Full name,Phone,Class,Area,Payment Status,Date", ...registrations.map((item) => [item.registration_id, item.full_name, item.student_phone, item.class_category, item.area_of_interest, item.payment_status, item.created_at].map((value) => `"${String(value ?? "").replaceAll('"', '""')}"`).join(","))].join("\n"))}`} download="know-it-africa-registrations.csv" className="inline-flex items-center justify-center gap-2 rounded-full bg-royal px-5 py-3 text-sm font-black text-white">
+        <a href={`data:text/csv;charset=utf-8,${encodeURIComponent(["Registration ID,Full name,Event,Phone,Class,Area,Payment Status,Date", ...registrations.map((item) => [item.registration_id, item.full_name, item.event_title, item.student_phone, item.class_category, item.area_of_interest, item.payment_status, item.created_at].map((value) => `"${String(value ?? "").replaceAll('"', '""')}"`).join(","))].join("\n"))}`} download="know-it-africa-registrations.csv" className="inline-flex items-center justify-center gap-2 rounded-full bg-royal px-5 py-3 text-sm font-black text-white">
           <Download className="h-4 w-4" /> Export CSV
         </a>
       </div>

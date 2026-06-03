@@ -6,6 +6,8 @@ import { registrationSchema, type RegistrationFormValues } from "@/lib/validator
 
 type RegistrationPayload = {
   registration_id: string;
+  event_title: string;
+  event_slug: string;
   full_name: string;
   date_of_birth: string;
   gender: string;
@@ -60,9 +62,18 @@ function generatePaymentReference(registrationId: string) {
   return `${registrationId}-${Date.now()}`;
 }
 
+function eventSlugFromTitle(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 function toRegistrationPayload(values: RegistrationFormValues, registrationId: string, paymentReference: string): RegistrationPayload {
   return {
     registration_id: registrationId,
+    event_title: values.eventTitle,
+    event_slug: eventSlugFromTitle(values.eventTitle),
     full_name: values.fullName,
     date_of_birth: values.dateOfBirth,
     gender: values.gender,
@@ -141,7 +152,7 @@ export async function createRegistration(values: RegistrationFormValues): Promis
           studentName: parsed.data.fullName,
           studentPhone: parsed.data.studentPhone,
           guardianEmail: parsed.data.guardianEmail,
-          programTitle: "AI & Software Development Bootcamp",
+          programTitle: parsed.data.eventTitle,
         });
 
         return {

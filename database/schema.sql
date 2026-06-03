@@ -6,6 +6,8 @@ create extension if not exists pgcrypto;
 create table if not exists public.registrations (
   id uuid primary key default gen_random_uuid(),
   registration_id text unique not null,
+  event_title text,
+  event_slug text,
   full_name text not null,
   date_of_birth date,
   gender text,
@@ -35,6 +37,7 @@ create table if not exists public.registrations (
 
 create index if not exists registrations_registration_id_idx on public.registrations (registration_id);
 create index if not exists registrations_payment_status_idx on public.registrations (payment_status);
+create index if not exists registrations_event_slug_idx on public.registrations (event_slug);
 create index if not exists registrations_created_at_idx on public.registrations (created_at desc);
 
 create or replace function public.set_updated_at()
@@ -55,3 +58,8 @@ alter table public.registrations enable row level security;
 
 -- Public users should not read registrations directly. Inserts are handled through a server action
 -- using the Supabase service-role key. Admin read/update policies will be added in later phases.
+
+-- If you already created the table before event-based registration, run:
+-- alter table public.registrations add column if not exists event_title text;
+-- alter table public.registrations add column if not exists event_slug text;
+-- create index if not exists registrations_event_slug_idx on public.registrations (event_slug);

@@ -55,7 +55,7 @@ export default async function AdminDashboardPage() {
             <Link key={registration.id} href={`/admin/registrations/${registration.id}`} className="grid gap-2 rounded-2xl border border-slate-100 p-4 transition hover:border-primary-blue/20 hover:bg-soft-blue sm:grid-cols-[1fr_auto] sm:items-center">
               <div>
                 <p className="font-black text-royal">{registration.full_name}</p>
-                <p className="text-sm font-semibold text-muted-text">{registration.registration_id} • {registration.student_phone}</p>
+                <p className="text-sm font-semibold text-muted-text">{registration.registration_id} • {registration.event_title ?? "Event not set"} • {registration.student_phone}</p>
               </div>
               <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-black capitalize text-royal">{registration.payment_status.replace("_", " ")}</span>
             </Link>

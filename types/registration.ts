@@ -5,6 +5,8 @@ export type PaymentStatus = "pending" | "paid" | "failed" | "manually_confirmed"
 export type RegistrationRecord = {
   id: string;
   registration_id: string;
+  event_title: string | null;
+  event_slug: string | null;
   full_name: string;
   date_of_birth: string | null;
   gender: string | null;

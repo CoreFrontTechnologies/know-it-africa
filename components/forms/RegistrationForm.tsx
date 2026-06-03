@@ -13,6 +13,7 @@ import {
   areaOfInterestOptions,
   classCategoryOptions,
   deviceOwnershipOptions,
+  eventOptions,
   genderOptions,
   internetAccessOptions,
   preferredClassOptions,
@@ -22,6 +23,7 @@ import {
 } from "@/lib/validators/registration";
 
 const defaultValues: RegistrationFormValues = {
+  eventTitle: "Intensive AI Software Development Bootcamp — Youths 2026",
   fullName: "",
   dateOfBirth: "",
   gender: "",
@@ -110,6 +112,12 @@ export function RegistrationForm() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <FormSection eyebrow="Event Selection" title="Choose the event you want to register for">
+          <div className="md:col-span-2">
+            <Select label="Event / Program" options={eventOptions} error={errors.eventTitle?.message} {...register("eventTitle")} />
+          </div>
+        </FormSection>
+
         <FormSection eyebrow="Student Information" title="Tell us about the learner">
           <Input label="Full Name" placeholder="Enter student full name" error={errors.fullName?.message} {...register("fullName")} />
           <Input
@@ -258,7 +266,7 @@ export function RegistrationForm() {
 
       <aside className="space-y-5 lg:sticky lg:top-28">
         <div className="rounded-[2rem] bg-royal p-6 text-white shadow-luxury pattern-grid">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-gold">Program Fee</p>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-gold">Selected Event Fee</p>
           <p className="mt-3 text-5xl font-black">{siteConfig.programFee}</p>
           <p className="mt-4 text-sm leading-7 text-white/72">
             Covers practical training access, project guidance, certificate processing, and post-payment WhatsApp confirmation.

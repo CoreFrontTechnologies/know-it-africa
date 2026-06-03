@@ -14,9 +14,9 @@ const highlights = [
 ];
 
 export const metadata = {
-  title: "Register for the AI & Software Development Bootcamp | Know It Africa",
+  title: "Register for a Know It Africa Event | Know It Africa",
   description:
-    "Register interest for Know It Africa's AI & Software Development Bootcamp. Phase 4 saves validated registrations to Supabase and redirects learners to Flutterwave checkout.",
+    "Register for a Know It Africa event. Validated registrations are saved securely before Flutterwave checkout.",
 };
 
 export default function RegistrationPage() {
@@ -36,12 +36,12 @@ export default function RegistrationPage() {
             </Link>
             <div className="grid gap-10 lg:grid-cols-[1fr_0.82fr] lg:items-end">
               <div>
-                <SectionBadge label="Bootcamp Registration" dark />
+                <SectionBadge label="Event Registration" dark />
                 <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                  Register for the {siteConfig.programTitle}
+                  Register for a Know It Africa event
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg leading-8 text-white/76">
-                  Complete the form below so Know It Africa can save learner details securely, generate a registration ID, and keep payment status pending while redirecting to Flutterwave checkout.
+                  Choose an event, complete learner details, receive a registration ID, and continue to secure Flutterwave checkout when payment is enabled.
                 </p>
               </div>
               <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5 backdrop-blur-2xl sm:p-6">

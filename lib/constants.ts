@@ -21,22 +21,26 @@ export const siteConfig = {
   motto: "Positioning Africans for global relevance.",
   whatsapp: "https://wa.me/2349033222589",
   whatsappDisplay: "+234 903 322 2589",
-  email: "info@knowitafrica.com",
-  website: "www.knowitafrica.com",
-  social: "@knowitafrica",
+  phonePrimary: "09033222589",
+  phoneSecondary: "08067265901",
+  email: "support@knowitafrica.com.ng",
+  website: "www.knowitafrica.com.ng",
+  social: "@Knowitafrica",
+  facebook: "https://www.facebook.com/share/1ERDzRU2ge/",
+  x: "https://x.com/Knowitafrica",
   venue: "Dependable International School, Dakwa",
-  phone: "09033222589 / 08076741457",
+  phone: "09033222589 / 08067265901",
   programTitle: "AI & Software Development Bootcamp",
   programFee: "₦10,000",
 };
 
 export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Programs", href: "#programs" },
-  { label: "Bootcamp", href: "#bootcamp" },
-  { label: "Events", href: "#events" },
-  { label: "Partnerships", href: "#partnerships" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Programs", href: "/#programs" },
+  { label: "Bootcamp", href: "/#bootcamp" },
+  { label: "Events", href: "/events" },
+  { label: "Partnerships", href: "/#partnerships" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export type IconCard = {
@@ -107,8 +111,43 @@ export const bootcampTopics = [
   "Final Practical Project + Certificate",
 ];
 
-export const pastEvents = [
+export type EventItem = {
+  slug: string;
+  category: "upcoming" | "past" | "future";
+  status: string;
+  title: string;
+  audience: string;
+  summary: string;
+  date: string;
+  time: string;
+  venue: string;
+  slots: string;
+  priceNotes: string[];
+  benefits: string[];
+  tone: "blue" | "red" | "navy";
+  registrationOpen: boolean;
+};
+
+export const events: EventItem[] = [
   {
+    slug: "intensive-ai-software-development-youths-2026",
+    category: "upcoming",
+    status: "Registration Open",
+    title: "Intensive AI Software Development Bootcamp",
+    audience: "For youths in 5 weeks",
+    summary: "A youth-centered AI and software development bootcamp featuring scholarship support, machine learning, agentic AI, content creation, and certification.",
+    date: "Starts 13th June, 2026",
+    time: "9:00pm Prompt",
+    venue: "LEA Primary School, Angwan Fulani",
+    slots: "Only 50 slots available",
+    priceNotes: ["70% scholarship available"],
+    benefits: ["How to create your AI", "Web and app development with AI", "Content creation with AI", "Machine learning", "Agentic AI", "Certificate"],
+    tone: "navy",
+    registrationOpen: true,
+  },
+  {
+    slug: "intensive-ai-software-development-students-2025",
+    category: "past",
     status: "Past Event",
     title: "Intensive AI Software Development Bootcamp",
     audience: "For students in 5 weeks",
@@ -119,9 +158,12 @@ export const pastEvents = [
     slots: "Only 50 slots available",
     priceNotes: ["Actual price: ₦50,000", "Early bird: ₦20,000"],
     benefits: ["Certification", "Practical Thinking", "Product Design Skills", "Career Leverage"],
-    tone: "blue" as const,
+    tone: "blue",
+    registrationOpen: false,
   },
   {
+    slug: "artificial-intelligence-class-for-kids-dutse",
+    category: "past",
     status: "Program Archive",
     title: "Artificial Intelligence Class for Kids",
     audience: "Saturdays only",
@@ -132,22 +174,47 @@ export const pastEvents = [
     slots: "Kids cohort",
     priceNotes: ["Early fee: ₦25,000"],
     benefits: ["Certification", "Practical training", "Product design skills", "Career leverage"],
-    tone: "red" as const,
+    tone: "red",
+    registrationOpen: false,
   },
   {
-    status: "Featured Bootcamp",
-    title: "Intensive AI Software Development Bootcamp",
-    audience: "For youths in 5 weeks",
-    summary: "A youth-centered AI and software development bootcamp featuring scholarship support, machine learning, agentic AI, content creation, and certification.",
-    date: "Starts 13th June, 2026",
-    time: "9:00pm Prompt",
-    venue: "LEA Primary School, Angwan Fulani",
-    slots: "Only 50 slots available",
-    priceNotes: ["70% scholarship available"],
-    benefits: ["How to create your AI", "Web and app development with AI", "Content creation with AI", "Machine learning", "Agentic AI", "Certificate"],
-    tone: "navy" as const,
+    slug: "school-ai-literacy-clubs",
+    category: "future",
+    status: "In Planning",
+    title: "School AI Literacy Clubs",
+    audience: "For schools and student communities",
+    summary: "A structured termly AI literacy and digital creativity club model for schools that want continuous student exposure beyond one-off bootcamps.",
+    date: "Future cohort to be announced",
+    time: "School-managed schedule",
+    venue: "Partner schools and innovation spaces",
+    slots: "School partnership cohorts",
+    priceNotes: ["Custom school partnership pricing"],
+    benefits: ["AI literacy", "Teacher support", "Student projects", "Innovation culture"],
+    tone: "blue",
+    registrationOpen: false,
+  },
+  {
+    slug: "ai-for-business-growth-workshop",
+    category: "future",
+    status: "Coming Soon",
+    title: "AI for Business Growth Workshop",
+    audience: "For entrepreneurs and business teams",
+    summary: "A practical workshop for business owners who want to use AI for productivity, marketing, customer support, content, and operations.",
+    date: "Future date to be announced",
+    time: "Weekend intensive",
+    venue: "Hybrid / partner venue",
+    slots: "Limited business cohort",
+    priceNotes: ["Corporate and SME pricing to be announced"],
+    benefits: ["AI productivity", "Marketing workflows", "Automation", "Content systems"],
+    tone: "navy",
+    registrationOpen: false,
   },
 ];
+
+export const upcomingEvents = events.filter((event) => event.category === "upcoming");
+export const pastEvents = events.filter((event) => event.category === "past");
+export const futureEvents = events.filter((event) => event.category === "future");
+export const registrationEvents = events.filter((event) => event.registrationOpen);
 
 export const registrationSteps = [
   "Student fills the registration form on /registration",

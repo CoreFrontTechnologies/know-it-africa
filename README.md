@@ -41,8 +41,8 @@ The homepage can run without environment variables. Live registration, checkout,
 - Premium homepage for Know It Africa
 - Sticky responsive header with mobile menu
 - Animated hero section with glow and digital grid styling
-- About, programs, bootcamp, audience, partnerships, registration-flow explainer, contact, and footer sections
-- Premium `/registration` page with multi-section student, contact, and program-detail form
+- About, programs, bootcamp, audience, event preview, partnerships, contact, and footer sections
+- Premium event-based `/registration` page with multi-section event, student, contact, and program-detail form
 - React Hook Form + Zod validation with friendly error messages and loading state
 - Server-side Supabase insert for registrations with generated `KIA-[YEAR]-[SHORT_RANDOM]` registration IDs
 - New registrations are saved with `payment_status = pending`
@@ -50,6 +50,7 @@ The homepage can run without environment variables. Live registration, checkout,
 - Learners are redirected to Flutterwave checkout without exposing `FLUTTERWAVE_SECRET_KEY`
 - `/payment/success` verifies Flutterwave transactions server-side and updates paid registrations
 - `/payment/failed` gives learners retry/support options for incomplete payments
+- Independent `/events` and `/contact` pages for consumer-grade navigation
 - Supabase Auth admin login at `/admin`
 - Protected admin dashboard, registrations table with search/status filter, detail page, manual payment status updates, and settings placeholder
 - Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
