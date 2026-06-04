@@ -1,7 +1,14 @@
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Mail, MessageCircle, Phone, Twitter } from "lucide-react";
 import { navLinks, siteConfig } from "@/lib/constants";
 import { BrandMark } from "@/components/site/BrandMark";
+
+const footerSocialLinks = [
+  { label: "Facebook", href: siteConfig.facebook, icon: Facebook },
+  { label: "X", href: siteConfig.x, icon: Twitter },
+  { label: "WhatsApp", href: siteConfig.whatsapp, icon: MessageCircle },
+  { label: "Email", href: `mailto:${siteConfig.email}`, icon: Mail },
+];
 
 export function Footer() {
   return (
@@ -27,28 +34,36 @@ export function Footer() {
                 {link.label}
               </a>
             ))}
+            <Link href="/events" className="block text-sm text-white/70 transition hover:text-gold">Events</Link>
             <Link href="/registration" className="block text-sm text-white/70 transition hover:text-gold">Registration</Link>
           </div>
         </div>
         <div>
-          <h3 className="mb-4 text-sm font-black uppercase tracking-[0.2em] text-gold">Contact</h3>
+          <h3 className="mb-4 text-sm font-black uppercase tracking-[0.2em] text-gold">Official contact</h3>
           <div className="space-y-3 text-sm text-white/70">
-            <p>{siteConfig.whatsappDisplay}</p>
-            <p>{siteConfig.email}</p>
-            <p>{siteConfig.website}</p>
+            <a href={siteConfig.whatsapp} target="_blank" rel="noreferrer" className="flex items-center gap-2 transition hover:text-gold">
+              <MessageCircle className="h-4 w-4" /> {siteConfig.whatsappDisplay}
+            </a>
+            <a href={`tel:${siteConfig.phoneSecondary}`} className="flex items-center gap-2 transition hover:text-gold">
+              <Phone className="h-4 w-4" /> {siteConfig.phoneSecondary}
+            </a>
+            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2 transition hover:text-gold">
+              <Mail className="h-4 w-4" /> {siteConfig.email}
+            </a>
             <p>{siteConfig.venue}</p>
           </div>
         </div>
         <div>
           <h3 className="mb-4 text-sm font-black uppercase tracking-[0.2em] text-gold">Social</h3>
           <div className="mb-5 flex gap-3">
-            {[Facebook, Instagram, Twitter, Linkedin].map((Icon, index) => (
-              <span key={index} className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white/75">
+            {footerSocialLinks.map(({ label, href, icon: Icon }) => (
+              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white/75 transition hover:-translate-y-0.5 hover:bg-gold hover:text-royal">
                 <Icon className="h-4 w-4" />
-              </span>
+              </a>
             ))}
           </div>
           <p className="text-sm text-white/70">{siteConfig.social}</p>
+          <a href={`https://${siteConfig.website}`} target="_blank" rel="noreferrer" className="mt-2 block text-sm text-white/70 transition hover:text-gold">{siteConfig.website}</a>
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6 text-sm text-white/55">

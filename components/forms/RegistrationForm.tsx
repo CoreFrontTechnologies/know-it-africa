@@ -13,7 +13,6 @@ import {
   areaOfInterestOptions,
   classCategoryOptions,
   deviceOwnershipOptions,
-  eventOptions,
   genderOptions,
   internetAccessOptions,
   preferredClassOptions,
@@ -21,9 +20,10 @@ import {
   registrationSchema,
   type RegistrationFormValues,
 } from "@/lib/validators/registration";
+import type { PublicEvent } from "@/lib/events";
 
 const defaultValues: RegistrationFormValues = {
-  eventTitle: "Intensive AI Software Development Bootcamp — Youths 2026",
+  eventSlug: "",
   fullName: "",
   dateOfBirth: "",
   gender: "",
@@ -65,10 +65,11 @@ function FormSection({
   );
 }
 
-export function RegistrationForm() {
+export function RegistrationForm({ events, initialEventSlug }: { events: PublicEvent[]; initialEventSlug?: string }) {
   const [registrationResult, setRegistrationResult] = useState<Extract<CreateRegistrationResult, { ok: true }> | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const today = new Date().toISOString().split("T")[0];
+  const selectedDefaultEvent = events.find((event) => event.slug === initialEventSlug) ?? events.find((event) => event.status === "registration_open") ?? events[0];
 
   const {
     register,
@@ -77,7 +78,7 @@ export function RegistrationForm() {
     formState: { errors, isSubmitting },
   } = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
-    defaultValues,
+    defaultValues: { ...defaultValues, eventSlug: selectedDefaultEvent?.slug ?? "" },
     mode: "onBlur",
   });
 
@@ -114,7 +115,22 @@ export function RegistrationForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <FormSection eyebrow="Event Selection" title="Choose the event you want to register for">
           <div className="md:col-span-2">
-            <Select label="Event / Program" options={eventOptions} error={errors.eventTitle?.message} {...register("eventTitle")} />
+            <label className="block" htmlFor="eventSlug">
+              <span className="mb-2 block text-sm font-black text-royal">Event / Program</span>
+              <select
+                id="eventSlug"
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-dark-text shadow-sm outline-none transition focus:border-primary-blue focus:ring-4 focus:ring-primary-blue/10"
+                {...register("eventSlug")}
+              >
+                {events.length === 0 ? <option value="">Registration is currently closed</option> : null}
+                {events.map((event) => (
+                  <option key={event.slug} value={event.slug}>
+                    {event.title} — {event.currency} {Number(event.price).toLocaleString("en-NG")}
+                  </option>
+                ))}
+              </select>
+              {errors.eventSlug?.message ? <span className="mt-2 block text-xs font-bold text-red-600">{errors.eventSlug.message}</span> : null}
+            </label>
           </div>
         </FormSection>
 
@@ -256,7 +272,7 @@ export function RegistrationForm() {
 
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || events.length === 0}
           className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-black text-royal shadow-gold transition duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
         >
           {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShieldCheck className="h-5 w-5" />}

@@ -1,147 +1,166 @@
-# Know It Africa
+# Know It Africa Platform
 
-Know It Africa is a premium standalone Next.js web platform for an African AI education and digital innovation brand with the motto: **Positioning Africans for global relevance.**
+Know It Africa is a standalone production-ready Next.js platform for African AI education, digital skills, bootcamps, and innovation programs.
 
-This repository is being built in phases. The current implementation includes **Phases 1-7**: project foundation, Tailwind design system, reusable homepage components, responsive layout, Framer Motion animations, a premium `/registration` page with React Hook Form + Zod validation, Supabase persistence for registration submissions, server-side Flutterwave payment initialization, payment success/failed pages with server-side verification, and a protected Supabase Auth admin area for dashboard stats and registration management.
+**Brand motto:** Positioning Africans for global relevance.
 
-## Tech Stack
+The app includes a premium public website, event-based registration, server-side Flutterwave checkout, Supabase persistence/auth, payment verification, and an authenticated admin console.
 
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Lucide React
-- React Hook Form
-- Zod
-- Supabase
-- Flutterwave
-- Supabase Auth admin login
+## Stack
 
-## Local Setup
+- Next.js App Router + TypeScript
+- Tailwind CSS v4-style global design tokens
+- Framer Motion and Lucide React
+- React Hook Form + Zod
+- Supabase Database + Supabase Auth
+- Flutterwave payment initialization, verification, and webhook route
+- Vercel deployment
+
+## What is included
+
+- Public pages: `/`, `/events`, `/contact`, `/registration`, `/payment/success`, `/payment/failed`
+- Admin pages: `/admin`, `/admin/dashboard`, `/admin/registrations`, `/admin/registrations/[id]`, `/admin/events`, `/admin/events/new`, `/admin/events/[id]/edit`, `/admin/payments`, `/admin/testimonials`, `/admin/partners`, `/admin/settings`, `/admin/activity`
+- Dynamic event/program management with safe fallback content when Supabase is not configured
+- Event-based registration with `KIA-[YEAR]-[SHORT_RANDOM]` registration IDs
+- Payment status tracking: `pending`, `paid`, `failed`, `cancelled`, `manually_confirmed`
+- Flutterwave server-side checkout creation and transaction verification
+- Supabase Row Level Security schema in `database/schema.sql`
+- SEO metadata, robots, sitemap, loading/error pages, favicon and brand assets
+
+## Local development
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
-Visit `http://localhost:3000`.
+Open `http://localhost:3000`.
 
-## Environment Variables
+The homepage and public fallback pages can run without Supabase/Flutterwave keys. Registration, payment, and admin functionality require environment variables.
 
-Copy `.env.example` to `.env.local` for local development:
+## Environment variables
 
-```bash
-cp .env.example .env.local
+Set these in `.env.local` for local development and in Vercel Project Settings for production:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY=FLWPUBK_TEST_or_LIVE_public_key
+FLUTTERWAVE_SECRET_KEY=FLWSECK_TEST_or_LIVE_secret_key
+FLUTTERWAVE_WEBHOOK_SECRET=your_flutterwave_webhook_secret
+NEXT_PUBLIC_SITE_URL=https://your-production-domain.com
+NEXT_PUBLIC_WHATSAPP_NUMBER=2349033222589
 ```
 
-The homepage can run without environment variables. Live registration, checkout, payment verification, and admin login require the Supabase and Flutterwave variables in `.env.local` or Vercel Project Settings.
+Never expose `SUPABASE_SERVICE_ROLE_KEY` or `FLUTTERWAVE_SECRET_KEY` in browser/client code.
 
-## Current Scope
-
-- Premium homepage for Know It Africa
-- Sticky responsive header with mobile menu
-- Animated hero section with glow and digital grid styling
-- About, programs, bootcamp, audience, event preview, partnerships, contact, and footer sections
-- Premium event-based `/registration` page with multi-section event, student, contact, and program-detail form
-- React Hook Form + Zod validation with friendly error messages and loading state
-- Server-side Supabase insert for registrations with generated `KIA-[YEAR]-[SHORT_RANDOM]` registration IDs
-- New registrations are saved with `payment_status = pending`
-- Server-side Flutterwave checkout initialization after the registration record is created
-- Learners are redirected to Flutterwave checkout without exposing `FLUTTERWAVE_SECRET_KEY`
-- `/payment/success` verifies Flutterwave transactions server-side and updates paid registrations
-- `/payment/failed` gives learners retry/support options for incomplete payments
-- Independent `/events` and `/contact` pages for consumer-grade navigation
-- Supabase Auth admin login at `/admin`
-- Protected admin dashboard, registrations table with search/status filter, detail page, manual payment status updates, and settings placeholder
-- Reusable components for buttons, cards, badges, layout shells, form inputs, selects, textareas, and site sections
-- Brand color palette implemented in Tailwind theme tokens
-
-## Planned Supabase Setup
-
-Phase 3 added Supabase persistence for public registration submissions. Run `database/schema.sql` in the Supabase SQL editor before submitting the live form. The intended registrations table is:
-
-```sql
-create table if not exists registrations (
-  id uuid primary key default gen_random_uuid(),
-  registration_id text unique not null,
-  full_name text not null,
-  date_of_birth date,
-  gender text,
-  home_address text,
-  school_name text,
-  class_category text,
-  state_of_origin text,
-  lga text,
-  student_phone text,
-  guardian_name text,
-  guardian_occupation text,
-  guardian_phone text,
-  guardian_email text,
-  preferred_contact_channel text,
-  preferred_class_category text,
-  area_of_interest text,
-  device_ownership text,
-  internet_access text,
-  reason_for_joining text,
-  payment_status text default 'pending',
-  payment_reference text,
-  flutterwave_transaction_id text,
-  amount numeric default 10000,
-  created_at timestamp with time zone default now(),
-  updated_at timestamp with time zone default now()
-);
-```
-
-
-## Supabase Registration Setup
+## Supabase setup
 
 1. Create a Supabase project.
-2. Run `database/schema.sql` in the Supabase SQL editor.
-3. Copy `.env.example` to `.env.local`.
-4. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`.
-5. Add `FLUTTERWAVE_SECRET_KEY` and `NEXT_PUBLIC_SITE_URL` for checkout initialization.
-6. Restart `npm run dev`.
+2. Go to **SQL Editor**.
+3. Copy and run all SQL in `database/schema.sql`.
+4. Confirm these tables exist: `events`, `event_modules`, `registrations`, `testimonials`, `partners`, `site_settings`, `admin_activity_logs`.
+5. Go to **Authentication → Users** and create the first admin user.
+6. Copy your project URL, anon key, and service-role key into `.env.local` and Vercel.
 
-The service-role key is used only by server-side code to insert registration records. Never expose it in client components.
+The schema enables Row Level Security. Public users do not read private registration records; server actions use the service-role key to create and update registration/payment records.
 
-## Flutterwave Setup
+## Flutterwave setup
 
-Phase 4 creates Flutterwave checkout links server-side after the registration record is saved. The `/registration` submit button saves the registration, keeps payment status as pending, creates a Flutterwave payment session, and redirects the learner to checkout. Phase 5 adds `/payment/success` and `/payment/failed`; the success page verifies Flutterwave transactions server-side, updates valid records to `paid`, saves `flutterwave_transaction_id`, and shows a WhatsApp confirmation button. Keep `FLUTTERWAVE_SECRET_KEY` server-side only and use `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` only in safe public contexts.
+1. Create/login to Flutterwave.
+2. Use test keys first.
+3. Set `NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY` and `FLUTTERWAVE_SECRET_KEY`.
+4. Set your redirect URL to:
+   - `https://your-domain.com/payment/success`
+5. Set failed/cancel redirect to:
+   - `https://your-domain.com/payment/failed`
+6. Set webhook URL to:
+   - `https://your-domain.com/api/webhooks/flutterwave`
+7. If you configure a webhook secret/hash in Flutterwave, set the same value as `FLUTTERWAVE_WEBHOOK_SECRET` in Vercel.
 
-## Vercel Deployment Notes
+Payment amount is taken from the selected event record on the server, not trusted from the client form.
 
-1. Push the complete working branch to GitHub `main`. The full app lives on the branch that contains `app/admin`, `app/payment`, `app/registration`, and `vercel.json`; do not deploy an older feature branch that only contains the homepage/registration preview.
-2. Import the project into Vercel as a Next.js project. In Vercel, set **Production Branch** to `main`.
-3. In Vercel Project Settings, set the Framework Preset to `Next.js` and ensure the Output Directory is `.next` (or leave the dashboard field empty so the committed `vercel.json` value is used). Do not set the Output Directory to `public`; this app is a Next.js application, not a static export.
-4. Add all required environment variables from `.env.example` in Vercel Project Settings when you are ready to test registration, payments, and admin login. You may deploy the homepage first without keys.
-5. Set `NEXT_PUBLIC_SITE_URL` to your production domain, for example `https://www.knowitafrica.com`. Include `https://`; the app also normalizes this value safely if the protocol is accidentally omitted.
-6. Run `database/schema.sql` in Supabase before testing the live registration form.
-7. Create Supabase Auth admin users before testing `/admin`.
-8. Deploy with the default Vercel build command: `npm run build`.
+## Admin login setup
 
-If Vercel shows `404: NOT_FOUND`, first confirm you opened a `Ready` deployment URL from the Vercel Deployments tab, then confirm the Git production branch and custom domain point to this project.
+1. Create a Supabase Auth user from the Supabase dashboard.
+2. Visit `/admin`.
+3. Login with that Supabase Auth email/password.
+4. Use the admin console to view registrations, payments, events, activity logs, settings, testimonials, and partners.
 
-Production readiness checklist:
+Protected admin routes are enforced by middleware and server-side session checks.
 
-- Confirm `SUPABASE_SERVICE_ROLE_KEY` and `FLUTTERWAVE_SECRET_KEY` are server-only Vercel environment variables.
-- Confirm Flutterwave is using the correct test/live keys for the deployment environment.
-- Confirm payment redirects point to `/payment/success` on the production domain.
-- Confirm the WhatsApp group link is never published in the UI; send it privately after verified payment.
-- Run `npm run typecheck`, `npm run lint`, and `npm run build` before production deployment.
+## Vercel deployment
 
-## Admin Login Setup Notes
+1. Push the code to GitHub `main`.
+2. Import the repo into Vercel.
+3. Framework preset: **Next.js**.
+4. Build command: `npm run build`.
+5. Output directory: leave blank or `.next`. Do not set `public`.
+6. Add all environment variables from `.env.example`.
+7. Deploy.
+8. After deployment, set `NEXT_PUBLIC_SITE_URL` to the final Vercel or custom-domain URL and redeploy.
 
-Admin authentication uses Supabase Auth. Create admin users in the Supabase dashboard under Authentication, then sign in at `/admin`. Protected admin pages call server-side session checks before loading registration data. Current admin routes include:
+## Custom domain
 
-- `/admin` — login page
-- `/admin/dashboard` — total, paid, pending, failed, and recent registrations
-- `/admin/registrations` — searchable/filterable registration table with CSV export
-- `/admin/registrations/[id]` — detailed record page with manual payment update actions
-- `/admin/settings` — placeholder settings page backed by config constants
+1. In Vercel, go to **Project → Settings → Domains**.
+2. Add your domain.
+3. Follow Vercel DNS instructions.
+4. Update `NEXT_PUBLIC_SITE_URL` to `https://your-domain.com`.
+5. Update Flutterwave redirect/webhook URLs to the same domain.
+6. Redeploy.
 
-## Security Notes
+## Testing checklist
 
-- Do not expose `SUPABASE_SERVICE_ROLE_KEY` in client components.
-- Do not expose `FLUTTERWAVE_SECRET_KEY` in frontend code.
-- Verify Flutterwave transactions server-side only.
-- Keep WhatsApp group links private; only send them after verified payment.
+Before launch, test:
+
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- Homepage loads on desktop/mobile
+- `/events` shows real events and empty future-events state
+- `/registration` loads a current registration-open event
+- Registration creates a Supabase record with `payment_status = pending`
+- Flutterwave redirects to checkout
+- Successful payment updates `payment_status = paid`
+- Failed payment shows retry/support options
+- `/admin` login works
+- Admin routes are blocked when logged out
+- Admin can search/export registrations
+- Admin can update payment status and admin notes
+- Admin can create/edit events and modules
+- Footer social/contact links open correctly
+
+## Switching to production payments
+
+1. Finish test-mode payment checks.
+2. Replace Flutterwave test keys with live keys in Vercel.
+3. Confirm live Flutterwave redirect/webhook URLs.
+4. Redeploy.
+5. Perform one small live transaction and verify Supabase status updates.
+
+## Common errors
+
+### Vercel says “No Output Directory named public”
+This is a Next.js app. Output directory should be blank or `.next`, not `public`.
+
+### `NEXT_PUBLIC_SUPABASE_URL is not configured`
+Add Supabase variables to `.env.local` and Vercel, then restart/redeploy.
+
+### Admin login says not configured
+Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+
+### Registration saves but payment does not start
+Check `FLUTTERWAVE_SECRET_KEY`, `NEXT_PUBLIC_SITE_URL`, selected event status, and event price.
+
+### Vercel warns about vulnerable Next.js
+Confirm `package.json` uses a patched Next.js version and Vercel is deploying the latest commit from `main`.
+
+## Security notes
+
+- Keep service-role and payment secret keys server-only.
+- Do not publish WhatsApp group links publicly.
+- Use Supabase Auth for admin access.
+- Keep Row Level Security enabled.
+- Use server-side payment verification before marking records paid.

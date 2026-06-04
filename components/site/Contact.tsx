@@ -14,7 +14,7 @@ const contactActions = [
 const socialLinks = [
   { label: "Facebook", value: "Know It Africa on Facebook", href: siteConfig.facebook, icon: Facebook },
   { label: "X / Twitter", value: siteConfig.social, href: siteConfig.x, icon: Twitter },
-  { label: "Website", value: siteConfig.website, href: "https://www.knowitafrica.com.ng", icon: Globe },
+  { label: "Website", value: siteConfig.website, href: `https://${siteConfig.website}`, icon: Globe },
 ];
 
 export function Contact({ compact = false }: { compact?: boolean }) {

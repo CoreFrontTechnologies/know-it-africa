@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { SectionBadge } from "@/components/site/SectionBadge";
 import { siteConfig } from "@/lib/constants";
+import { getRegistrationEvents } from "@/lib/events";
 
 const highlights = [
   { label: "5-week intensive training", icon: CalendarDays },
@@ -19,7 +20,18 @@ export const metadata = {
     "Register for a Know It Africa event. Validated registrations are saved securely before Flutterwave checkout.",
 };
 
-export default function RegistrationPage() {
+type RegistrationPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function firstParam(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function RegistrationPage({ searchParams }: RegistrationPageProps) {
+  const params = (await searchParams) ?? {};
+  const requestedEventSlug = firstParam(params.event);
+  const registrationEvents = await getRegistrationEvents();
   return (
     <>
       <Header />
@@ -76,7 +88,7 @@ export default function RegistrationPage() {
                 </div>
               </div>
             </div>
-            <RegistrationForm />
+            <RegistrationForm events={registrationEvents} initialEventSlug={requestedEventSlug} />
           </div>
         </section>
       </main>

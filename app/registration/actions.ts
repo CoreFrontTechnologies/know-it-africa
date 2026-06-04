@@ -1,13 +1,16 @@
 "use server";
 
 import { initializeFlutterwavePayment } from "@/lib/flutterwave";
+import { getEventBySlug } from "@/lib/events";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { registrationSchema, type RegistrationFormValues } from "@/lib/validators/registration";
 
 type RegistrationPayload = {
   registration_id: string;
+  event_id: string | null;
   event_title: string;
   event_slug: string;
+  currency: string;
   full_name: string;
   date_of_birth: string;
   gender: string;
@@ -62,18 +65,16 @@ function generatePaymentReference(registrationId: string) {
   return `${registrationId}-${Date.now()}`;
 }
 
-function eventSlugFromTitle(title: string) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+function isUuid(value?: string | null) {
+  return Boolean(value?.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i));
 }
 
-function toRegistrationPayload(values: RegistrationFormValues, registrationId: string, paymentReference: string): RegistrationPayload {
+function toRegistrationPayload(values: RegistrationFormValues, registrationId: string, paymentReference: string, event: Awaited<ReturnType<typeof getEventBySlug>>): RegistrationPayload {
   return {
     registration_id: registrationId,
-    event_title: values.eventTitle,
-    event_slug: eventSlugFromTitle(values.eventTitle),
+    event_id: isUuid(event?.id) ? event?.id ?? null : null,
+    event_title: event?.title ?? "AI & Software Development Bootcamp",
+    event_slug: event?.slug ?? values.eventSlug,
     full_name: values.fullName,
     date_of_birth: values.dateOfBirth,
     gender: values.gender,
@@ -95,7 +96,8 @@ function toRegistrationPayload(values: RegistrationFormValues, registrationId: s
     reason_for_joining: values.reasonForJoining,
     payment_status: "pending",
     payment_reference: paymentReference,
-    amount: 10000,
+    amount: Number(event?.price ?? 10000),
+    currency: event?.currency ?? "NGN",
   };
 }
 
@@ -139,7 +141,16 @@ export async function createRegistration(values: RegistrationFormValues): Promis
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const registrationId = generateRegistrationId();
     const paymentReference = generatePaymentReference(registrationId);
-    const payload = toRegistrationPayload(parsed.data, registrationId, paymentReference);
+    const selectedEvent = await getEventBySlug(parsed.data.eventSlug);
+
+    if (!selectedEvent || selectedEvent.status !== "registration_open") {
+      return {
+        ok: false,
+        message: "Registration is currently closed for the selected event. Please choose another event or contact Know It Africa.",
+      };
+    }
+
+    const payload = toRegistrationPayload(parsed.data, registrationId, paymentReference, selectedEvent);
 
     const { error } = await supabase.from("registrations").insert(payload);
 
@@ -152,7 +163,7 @@ export async function createRegistration(values: RegistrationFormValues): Promis
           studentName: parsed.data.fullName,
           studentPhone: parsed.data.studentPhone,
           guardianEmail: parsed.data.guardianEmail,
-          programTitle: parsed.data.eventTitle,
+          programTitle: selectedEvent.title,
         });
 
         return {

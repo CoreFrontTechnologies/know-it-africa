@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const protectedAdminPaths = ["/admin/dashboard", "/admin/registrations", "/admin/settings"];
+const isAdminLoginPath = (pathname: string) => pathname === "/admin";
+const isProtectedAdminPath = (pathname: string) => pathname.startsWith("/admin/");
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -9,7 +10,7 @@ export async function middleware(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    if (protectedAdminPaths.some((path) => pathname.startsWith(path))) {
+    if (isProtectedAdminPath(pathname)) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
 
@@ -34,13 +35,11 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isProtectedAdminPath = protectedAdminPaths.some((path) => pathname.startsWith(path));
-
-  if (isProtectedAdminPath && !user) {
+  if (isProtectedAdminPath(pathname) && !user) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
 
-  if (pathname === "/admin" && user) {
+  if (isAdminLoginPath(pathname) && user) {
     return NextResponse.redirect(new URL("/admin/dashboard", request.url));
   }
 

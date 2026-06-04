@@ -1,10 +1,11 @@
 import type { RegistrationFormValues } from "@/lib/validators/registration";
 
-export type PaymentStatus = "pending" | "paid" | "failed" | "manually_confirmed";
+export type PaymentStatus = "pending" | "paid" | "failed" | "cancelled" | "manually_confirmed";
 
 export type RegistrationRecord = {
   id: string;
   registration_id: string;
+  event_id: string | null;
   event_title: string | null;
   event_slug: string | null;
   full_name: string;
@@ -30,6 +31,8 @@ export type RegistrationRecord = {
   payment_reference: string | null;
   flutterwave_transaction_id: string | null;
   amount: number;
+  currency: string | null;
+  admin_notes: string | null;
   created_at: string;
   updated_at: string;
 };

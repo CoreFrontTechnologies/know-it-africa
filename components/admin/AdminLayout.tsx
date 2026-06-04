@@ -1,13 +1,19 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BarChart3, LogOut, Settings, Users } from "lucide-react";
+import { Activity, BarChart3, CalendarDays, CreditCard, Handshake, Home, LogOut, MessageSquareQuote, Settings, Users } from "lucide-react";
 import { signOutAdmin } from "@/app/admin/actions";
 import { siteConfig } from "@/lib/constants";
 
 const adminLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: BarChart3 },
   { href: "/admin/registrations", label: "Registrations", icon: Users },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/events", label: "Events & Programs", icon: CalendarDays },
+  { href: "/admin/payments", label: "Payments", icon: CreditCard },
+  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { href: "/admin/partners", label: "Partners", icon: Handshake },
+  { href: "/admin/settings", label: "Site Settings", icon: Settings },
+  { href: "/admin/activity", label: "Activity Logs", icon: Activity },
+  { href: "/", label: "Back to Website", icon: Home },
 ];
 
 export function AdminLayout({ children, email }: { children: ReactNode; email?: string | null }) {

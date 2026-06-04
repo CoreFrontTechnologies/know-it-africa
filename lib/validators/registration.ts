@@ -6,12 +6,6 @@ const requiredText = (label: string, min = 2) =>
 const requiredSelect = (label: string) =>
   z.string().trim().min(1, `Please select ${label.toLowerCase()}.`);
 
-export const eventOptions = [
-  "Intensive AI Software Development Bootcamp — Youths 2026",
-  "School AI Literacy Clubs — Interest List",
-  "AI for Business Growth Workshop — Interest List",
-] as const;
-
 export const genderOptions = ["Male", "Female"] as const;
 export const classCategoryOptions = [
   "JSS 1",
@@ -39,7 +33,7 @@ export const deviceOwnershipOptions = ["Laptop", "Tablet", "Phone", "None"] as c
 export const internetAccessOptions = ["Yes", "No"] as const;
 
 export const registrationSchema = z.object({
-  eventTitle: requiredSelect("event / program"),
+  eventSlug: requiredSelect("event / program"),
   fullName: requiredText("Full name", 3),
   dateOfBirth: z
     .string()

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, MessageCircle } from "lucide-react";
-import { updateRegistrationPaymentStatus } from "@/app/admin/actions";
+import { updateRegistrationAdminNotes, updateRegistrationPaymentStatus } from "@/app/admin/actions";
 import { CopyButton } from "@/components/admin/CopyButton";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { requireAdminUser } from "@/lib/admin/auth";
@@ -37,6 +37,7 @@ function statusBadge(status: PaymentStatus) {
     paid: "bg-success/10 text-success",
     manually_confirmed: "bg-primary-blue/10 text-primary-blue",
     failed: "bg-red-100 text-red-600",
+    cancelled: "bg-slate-100 text-slate-700",
     pending: "bg-gold/15 text-royal",
   };
 
@@ -143,6 +144,7 @@ export default async function RegistrationDetailsPage({ params }: RegistrationDe
                 ["paid", "Mark as paid manually"],
                 ["pending", "Mark as pending"],
                 ["failed", "Mark as failed"],
+                ["cancelled", "Mark as cancelled"],
                 ["manually_confirmed", "Mark manually confirmed"],
               ] as [PaymentStatus, string][]).map(([status, label]) => (
                 <form key={status} action={updateRegistrationPaymentStatus}>
@@ -151,6 +153,13 @@ export default async function RegistrationDetailsPage({ params }: RegistrationDe
                   <button className="w-full rounded-full bg-soft-blue px-4 py-3 text-sm font-black text-primary-blue transition hover:bg-primary-blue hover:text-white">{label}</button>
                 </form>
               ))}
+
+              <form action={updateRegistrationAdminNotes} className="rounded-3xl border border-slate-100 p-4">
+                <input type="hidden" name="registrationId" value={registration.id} />
+                <label className="text-sm font-black text-royal" htmlFor="adminNotes">Admin notes</label>
+                <textarea id="adminNotes" name="adminNotes" defaultValue={registration.admin_notes ?? ""} className="mt-3 min-h-28 w-full rounded-2xl border border-slate-200 p-3 text-sm font-semibold text-royal outline-none focus:border-primary-blue focus:ring-4 focus:ring-primary-blue/10" placeholder="Add internal notes for follow-up, payment confirmation, or WhatsApp access." />
+                <button className="mt-3 w-full rounded-full bg-royal px-4 py-3 text-sm font-black text-white">Save admin note</button>
+              </form>
               <a href={whatsappLink(registration)} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-4 py-3 text-sm font-black text-royal">
                 <MessageCircle className="h-4 w-4" /> Open WhatsApp chat
               </a>
