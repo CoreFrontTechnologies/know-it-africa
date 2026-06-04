@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { addEventModuleAction } from "@/app/admin/events/actions";
+import { addEventModuleAction, deleteEventAction } from "@/app/admin/events/actions";
 import { EventForm } from "@/components/admin/EventForm";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { requireAdminUser } from "@/lib/admin/auth";
@@ -66,6 +66,13 @@ export default async function EditEventPage({ params }: PageProps) {
               <input name="sort_order" type="number" defaultValue={modules.length + 1} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold" />
               <button className="rounded-full bg-gold px-5 py-3 text-sm font-black text-royal">Add Module</button>
             </div>
+          </form>
+
+          <form action={deleteEventAction} className="rounded-[2rem] border border-red-200 bg-red-50 p-6 shadow-luxury">
+            <input type="hidden" name="id" value={event.id} />
+            <h2 className="text-2xl font-black text-red-700">Delete event</h2>
+            <p className="mt-3 text-sm font-semibold leading-7 text-red-700/80">Delete this event only when it was created by mistake. Existing registrations keep their event name for records.</p>
+            <button className="mt-5 rounded-full bg-red-600 px-5 py-3 text-sm font-black text-white transition hover:bg-red-700">Delete Event</button>
           </form>
         </aside>
       </div>

@@ -1,4 +1,4 @@
-import { Facebook, Globe, Mail, MapPin, MessageCircle, Phone, Send, Twitter } from "lucide-react";
+import { CalendarDays, Facebook, Globe, Mail, MessageCircle, Phone, Send, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionBadge } from "@/components/site/SectionBadge";
 import { SectionShell } from "@/components/site/SectionShell";
@@ -54,10 +54,10 @@ export function Contact({ compact = false }: { compact?: boolean }) {
 
           <div className="mt-5 rounded-3xl bg-royal p-6 text-white pattern-grid">
             <div className="flex gap-4">
-              <MapPin className="h-6 w-6 shrink-0 text-gold" />
+              <CalendarDays className="h-6 w-6 shrink-0 text-gold" />
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.18em] text-gold">Training / Partner Venue</p>
-                <p className="mt-2 text-white/78">{siteConfig.venue}</p>
+                <p className="text-sm font-black uppercase tracking-[0.18em] text-gold">Event Venues</p>
+                <p className="mt-2 text-white/78">Training venues are announced on each event page because locations may change by program.</p>
               </div>
             </div>
           </div>

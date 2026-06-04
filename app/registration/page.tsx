@@ -17,7 +17,7 @@ const highlights = [
 export const metadata = {
   title: "Register for a Know It Africa Event | Know It Africa",
   description:
-    "Register for a Know It Africa event. Validated registrations are saved securely before Flutterwave checkout.",
+    "Register for a Know It Africa event and reserve your seat for practical AI and software development training.",
 };
 
 type RegistrationPageProps = {
@@ -53,7 +53,7 @@ export default async function RegistrationPage({ searchParams }: RegistrationPag
                   Register for a Know It Africa event
                 </h1>
                 <p className="mt-6 max-w-3xl text-lg leading-8 text-white/76">
-                  Choose an event, complete learner details, receive a registration ID, and continue to secure Flutterwave checkout when payment is enabled.
+                  Choose an event, complete learner details, receive a registration ID, and continue to secure payment to reserve your seat.
                 </p>
               </div>
               <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5 backdrop-blur-2xl sm:p-6">
@@ -76,10 +76,10 @@ export default async function RegistrationPage({ searchParams }: RegistrationPag
             <div className="mb-8 rounded-[2rem] border border-royal/8 bg-white p-5 shadow-luxury sm:p-7">
               <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                 <div>
-                  <p className="text-sm font-black uppercase tracking-[0.18em] text-primary-blue">Phase 4 Registration + Payment</p>
-                  <h2 className="mt-2 text-2xl font-black text-royal">Student registration details</h2>
+                  <p className="text-sm font-black uppercase tracking-[0.18em] text-primary-blue">Event Registration</p>
+                  <h2 className="mt-2 text-2xl font-black text-royal">Complete your learner details</h2>
                   <p className="mt-2 text-sm leading-7 text-muted-text">
-                    All required fields are validated with friendly messages. Submitting saves the registration in Supabase with payment status set to pending, creates a Flutterwave checkout link server-side, and redirects you to payment.
+                    Choose your preferred event, fill in the learner and guardian details, then continue to secure payment to reserve your seat.
                   </p>
                 </div>
                 <div className="rounded-2xl bg-soft-blue px-5 py-4 text-right">

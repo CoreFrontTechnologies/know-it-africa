@@ -24,11 +24,11 @@ export const siteConfig = {
   phonePrimary: "09033222589",
   phoneSecondary: "08067265901",
   email: "info@knowitafrica.com",
-  website: "www.knowitafrica.com",
+  website: "www.knowitafrica.com.ng",
   social: "@Knowitafrica",
   facebook: "https://www.facebook.com/share/1ERDzRU2ge/",
   x: "https://x.com/Knowitafrica",
-  venue: "Dependable International School, Dakwa",
+  venue: "Venue announced per event",
   phone: "09033222589 / 08067265901",
   programTitle: "AI & Software Development Bootcamp",
   programFee: "₦10,000",
@@ -154,7 +154,7 @@ export const events: EventItem[] = [
     summary: "A student-focused AI and software development bootcamp promoted with a 50-slot cohort, practical benefits, and an early-bird access offer.",
     date: "October 18th, 2025",
     time: "9:00pm Prompt",
-    venue: "Dependable International School, Dakwa",
+    venue: "Venue announced per event",
     slots: "Only 50 slots available",
     priceNotes: ["Actual price: ₦50,000", "Early bird: ₦20,000"],
     benefits: ["Certification", "Practical Thinking", "Product Design Skills", "Career Leverage"],
@@ -186,11 +186,11 @@ export const futureEvents = events.filter((event) => event.category === "future"
 export const registrationEvents = events.filter((event) => event.registrationOpen);
 
 export const registrationSteps = [
-  "Student fills the registration form on /registration",
-  "Details are saved securely in the database",
-  "Student is redirected to Flutterwave checkout",
-  "Payment is verified automatically",
-  "Admin confirms and sends WhatsApp group access privately",
+  "Choose the event you want to attend",
+  "Fill in the learner and guardian details",
+  "Continue to secure online payment",
+  "Receive your registration ID after checkout",
+  "Our team confirms access and sends next steps privately",
 ];
 
 export const partnerTypes = [
@@ -209,11 +209,11 @@ export const heroStats = [
 ];
 
 export const registrationFlowCards = [
-  ["Page", "/registration standalone page"],
-  ["Database", "Supabase registrations table"],
-  ["Payment", "Flutterwave checkout"],
-  ["Verification", "Server-side transaction verification"],
-  ["After Payment", "Success page with WhatsApp confirmation button"],
+  ["Choose", "Select the event or bootcamp you want to join"],
+  ["Register", "Share learner and guardian details"],
+  ["Pay", "Complete payment securely online"],
+  ["Confirm", "Receive your registration ID"],
+  ["Access", "Get private joining instructions after confirmation"],
 ];
 
 export const decorativeIcons = { Sparkles };

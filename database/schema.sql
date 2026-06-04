@@ -227,7 +227,7 @@ create policy "Authenticated admins can read activity logs" on public.admin_acti
 insert into public.site_settings (key, value)
 values
   ('general', '{"siteName":"Know It Africa","motto":"Positioning Africans for global relevance."}'::jsonb),
-  ('contact', '{"whatsapp":"2349033222589","email":"info@knowitafrica.com","venue":"Dependable International School, Dakwa"}'::jsonb),
+  ('contact', '{"whatsapp":"2349033222589","email":"info@knowitafrica.com","venue":"Event venues are announced per program"}'::jsonb),
   ('payment', '{"currency":"NGN","defaultFee":10000}'::jsonb),
   ('registration', '{"open":true}'::jsonb)
 on conflict (key) do nothing;

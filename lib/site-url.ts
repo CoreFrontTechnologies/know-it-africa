@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = "https://www.knowitafrica.com";
+const DEFAULT_SITE_URL = "https://www.knowitafrica.com.ng";
 
 export function getSiteUrl(fallback = DEFAULT_SITE_URL) {
   const rawValue = process.env.NEXT_PUBLIC_SITE_URL?.trim() || fallback;

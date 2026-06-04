@@ -70,7 +70,7 @@ function EventCard({ event }: { event: PublicEvent }) {
           ))}
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl bg-gold/15 p-4 text-sm font-black text-royal dark:text-gold">Fee: {event.currency} {Number(event.price ?? 0).toLocaleString("en-NG")}</div>
+          {isOpen ? <div className="rounded-2xl bg-gold/15 p-4 text-sm font-black text-royal dark:text-gold">Fee: {event.currency} {Number(event.price ?? 0).toLocaleString("en-NG")}</div> : null}
           <div className="rounded-2xl bg-soft-blue p-4 text-sm font-black text-royal dark:bg-white/10 dark:text-white">Certificate: {event.certificate_available ? "Available" : "Not listed"}</div>
         </div>
         {isOpen ? <Button href={`/registration?event=${event.slug}`} className="w-full justify-center">Register for this event</Button> : null}
@@ -85,7 +85,7 @@ function EmptyEvents({ title }: { title: string }) {
       <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-soft-blue text-primary-blue dark:bg-white/10 dark:text-gold">
         <Inbox className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 text-2xl font-black text-royal dark:text-white">No {title.toLowerCase()} right now</h3>
+      <h3 className="mt-4 text-2xl font-black text-royal dark:text-white">No {title.toLowerCase()} at the moment</h3>
       <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-7 text-muted-text dark:text-white/70">
         We only publish confirmed Know It Africa events. Check back soon or contact the team to discuss school, community, or corporate AI training partnerships.
       </p>
@@ -137,7 +137,7 @@ export default async function EventsPage() {
           <div className="mx-auto max-w-7xl">
             <EventGroup title="Current & Upcoming Events" description="Confirmed events learners can register for or prepare to join." events={currentEvents} />
             <EventGroup title="Past Events" description="Completed or archived bootcamps and classes from Know It Africa’s learning journey." events={pastEvents} />
-            <EventGroup title="Future Events" description="No mock events are listed here. Future events will appear only when the team confirms the details." events={futureEvents} />
+            <EventGroup title="Future Events" description="New learning opportunities will appear here when the next cohort or program is announced." events={futureEvents} />
           </div>
         </section>
       </main>

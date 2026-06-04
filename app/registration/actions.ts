@@ -134,7 +134,7 @@ export async function createRegistration(values: RegistrationFormValues): Promis
 
     return {
       ok: false,
-      message: "Registration is not connected yet. Please configure Supabase environment variables and try again.",
+      message: "Online registration is temporarily unavailable. Please contact Know It Africa on WhatsApp for assistance.",
     };
   }
 
@@ -181,7 +181,7 @@ export async function createRegistration(values: RegistrationFormValues): Promis
         return {
           ok: false,
           message:
-            "Your registration was saved, but we could not create a Flutterwave checkout link. Please contact Know It Africa on WhatsApp with your registration ID.",
+            "Your registration was received, but we could not open the payment page right now. Please contact Know It Africa on WhatsApp with your registration ID.",
           registrationId,
           paymentReference,
         };

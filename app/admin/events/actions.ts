@@ -126,3 +126,24 @@ export async function addEventModuleAction(formData: FormData) {
   await logAction("event_module.created", "events", eventId, { title });
   revalidatePath(`/admin/events/${eventId}/edit`);
 }
+
+export async function deleteEventAction(formData: FormData) {
+  await requireAdminUser();
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id) throw new Error("Event ID is required.");
+
+  const supabase = createSupabaseAdminClient();
+  const { data: event } = await supabase.from("events").select("title").eq("id", id).maybeSingle<{ title: string }>();
+
+  const { error: unlinkError } = await supabase.from("registrations").update({ event_id: null }).eq("event_id", id);
+  if (unlinkError) throw new Error(unlinkError.message);
+
+  const { error } = await supabase.from("events").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  await logAction("event.deleted", "events", id, { title: event?.title ?? "Deleted event" });
+  revalidatePath("/events");
+  revalidatePath("/registration");
+  revalidatePath("/admin/events");
+  redirect("/admin/events");
+}

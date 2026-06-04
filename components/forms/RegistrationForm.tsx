@@ -255,7 +255,7 @@ export function RegistrationForm({ events, initialEventSlug }: { events: PublicE
               <CheckCircle2 className="h-5 w-5 text-success" /> Registration saved successfully
             </div>
             <p>
-              Thanks, {registrationResult.studentName}. Your registration has been saved with payment status set to pending. Redirecting you to Flutterwave checkout now.
+              Thanks, {registrationResult.studentName}. Your registration has been received. We are taking you to the secure payment page now.
             </p>
             <div className="mt-4 grid gap-3 rounded-2xl bg-white/70 p-4 sm:grid-cols-2">
               <div>
@@ -276,7 +276,7 @@ export function RegistrationForm({ events, initialEventSlug }: { events: PublicE
           className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-black text-royal shadow-gold transition duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
         >
           {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShieldCheck className="h-5 w-5" />}
-          {isSubmitting ? "Creating Checkout..." : "Save Registration & Continue to Payment"}
+          {isSubmitting ? "Preparing Payment..." : "Continue to Secure Payment"}
         </button>
       </form>
 
@@ -285,16 +285,16 @@ export function RegistrationForm({ events, initialEventSlug }: { events: PublicE
           <p className="text-xs font-black uppercase tracking-[0.18em] text-gold">Selected Event Fee</p>
           <p className="mt-3 text-5xl font-black">{siteConfig.programFee}</p>
           <p className="mt-4 text-sm leading-7 text-white/72">
-            Covers practical training access, project guidance, certificate processing, and post-payment WhatsApp confirmation.
+            Covers practical training access, project guidance, certificate processing, and private joining instructions after confirmation.
           </p>
         </div>
         <div className="rounded-[2rem] border border-royal/10 bg-white p-6 shadow-luxury">
           <div className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-gold/15 text-gold">
             <LockKeyhole className="h-6 w-6" />
           </div>
-          <h3 className="text-xl font-black text-royal">Payment security note</h3>
+          <h3 className="text-xl font-black text-royal">Secure payment</h3>
           <p className="mt-3 text-sm leading-7 text-muted-text">
-            Your registration is saved first with payment status set to pending, then you are redirected to secure Flutterwave checkout. Secret payment keys stay on the server.
+            Your details are handled securely, and payment is completed through a trusted online checkout before your seat is confirmed.
           </p>
         </div>
         <div className="rounded-[2rem] border border-gold/20 bg-gold/10 p-6">
