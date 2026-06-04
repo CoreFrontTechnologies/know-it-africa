@@ -54,7 +54,7 @@ function eventPayload(formData: FormData) {
     full_description: textOrNull(formData.get("full_description")),
     category: textOrNull(formData.get("category")),
     status: String(formData.get("status") ?? "draft"),
-    price: numberOrNull(formData.get("price")) ?? 10000,
+    price: numberOrNull(formData.get("price")) ?? 12250,
     currency: String(formData.get("currency") ?? "NGN"),
     start_date: textOrNull(formData.get("start_date")),
     end_date: textOrNull(formData.get("end_date")),

@@ -11,7 +11,7 @@ create table if not exists public.events (
   full_description text,
   category text,
   status text default 'draft' check (status in ('draft', 'published', 'registration_open', 'registration_closed', 'completed', 'archived')),
-  price numeric default 10000,
+  price numeric default 12250,
   currency text default 'NGN',
   start_date date,
   end_date date,
@@ -65,7 +65,7 @@ create table if not exists public.registrations (
   payment_status text default 'pending' check (payment_status in ('pending', 'paid', 'failed', 'cancelled', 'manually_confirmed')),
   payment_reference text,
   flutterwave_transaction_id text,
-  amount numeric default 10000,
+  amount numeric default 12250,
   currency text default 'NGN',
   admin_notes text,
   created_at timestamptz default now(),
@@ -228,7 +228,7 @@ insert into public.site_settings (key, value)
 values
   ('general', '{"siteName":"Know It Africa","motto":"Positioning Africans for global relevance."}'::jsonb),
   ('contact', '{"whatsapp":"2349033222589","email":"contact@knowitafrica.com.ng","venue":"Event venues are announced per program"}'::jsonb),
-  ('payment', '{"currency":"NGN","defaultFee":10000}'::jsonb),
+  ('payment', '{"currency":"NGN","defaultFee":12250}'::jsonb),
   ('registration', '{"open":true}'::jsonb)
 on conflict (key) do nothing;
 
@@ -242,7 +242,7 @@ insert into public.events (
   'Learners will cover AI literacy, prompt engineering, software development foundations, content creation with AI, no-code tools, practical projects, and certificate preparation.',
   'Bootcamp',
   'registration_open',
-  10000,
+  12250,
   'NGN',
   '2026-06-13',
   'Dependable International School, Dakwa',

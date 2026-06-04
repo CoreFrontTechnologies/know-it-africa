@@ -32,7 +32,7 @@ export const siteConfig = {
   venue: "Venue announced per event",
   phone: "09033222589 / 08067265901",
   programTitle: "AI & Software Development Bootcamp",
-  programFee: "₦10,000",
+  programFee: "₦12,250",
 };
 
 export const navLinks = [

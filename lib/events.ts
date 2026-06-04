@@ -15,7 +15,7 @@ function fallbackToPublicEvent(event: EventItem): PublicEvent {
     full_description: event.summary,
     category: event.category,
     status: event.registrationOpen ? "registration_open" : event.category === "past" ? "completed" : "published",
-    price: event.registrationOpen ? 10000 : 0,
+    price: event.registrationOpen ? 12250 : 0,
     currency: "NGN",
     start_date: event.date.includes("2026") ? "2026-06-13" : null,
     end_date: null,

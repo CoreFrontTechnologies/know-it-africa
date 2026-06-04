@@ -96,7 +96,7 @@ function toRegistrationPayload(values: RegistrationFormValues, registrationId: s
     reason_for_joining: values.reasonForJoining,
     payment_status: "pending",
     payment_reference: paymentReference,
-    amount: Number(event?.price ?? 10000),
+    amount: Number(event?.price ?? 12250),
     currency: event?.currency ?? "NGN",
   };
 }

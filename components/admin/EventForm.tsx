@@ -30,7 +30,7 @@ export function EventForm({ event }: { event?: EventRecord | null }) {
         </label>
         <label className="block">
           <span className="mb-2 block text-sm font-black text-royal">Price</span>
-          <input name="price" type="number" min="0" defaultValue={event?.price ?? 10000} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold outline-none focus:border-primary-blue focus:ring-4 focus:ring-primary-blue/10" />
+          <input name="price" type="number" min="0" defaultValue={event?.price ?? 12250} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold outline-none focus:border-primary-blue focus:ring-4 focus:ring-primary-blue/10" />
         </label>
         <label className="block">
           <span className="mb-2 block text-sm font-black text-royal">Currency</span>
