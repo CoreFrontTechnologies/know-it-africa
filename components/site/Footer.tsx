@@ -50,6 +50,9 @@ export function Footer() {
             <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2 transition hover:text-gold">
               <Mail className="h-4 w-4" /> {siteConfig.email}
             </a>
+            <a href={`mailto:${siteConfig.secondaryEmail}`} className="flex items-center gap-2 transition hover:text-gold">
+              <Mail className="h-4 w-4" /> {siteConfig.secondaryEmail}
+            </a>
             <p className="text-white/55">Event venues are shown on each event page.</p>
           </div>
         </div>

@@ -16,6 +16,7 @@ export default async function AdminSettingsPage() {
     ["Registration status", "Open"],
     ["Venue", siteConfig.venue],
     ["Contact email", siteConfig.email],
+    ["Alternate email", siteConfig.secondaryEmail],
     ["Payment status labels", "pending, paid, failed, manually_confirmed"],
   ];
 

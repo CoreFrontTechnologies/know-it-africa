@@ -7,7 +7,8 @@ import { siteConfig } from "@/lib/constants";
 const contactActions = [
   { label: "Primary phone", value: siteConfig.phonePrimary, href: `tel:${siteConfig.phonePrimary}`, icon: Phone },
   { label: "WhatsApp", value: siteConfig.whatsappDisplay, href: siteConfig.whatsapp, icon: MessageCircle },
-  { label: "Support email", value: siteConfig.email, href: `mailto:${siteConfig.email}`, icon: Mail },
+  { label: "Official email", value: siteConfig.email, href: `mailto:${siteConfig.email}`, icon: Mail },
+  { label: "Alternate email", value: siteConfig.secondaryEmail, href: `mailto:${siteConfig.secondaryEmail}`, icon: Mail },
   { label: "Secondary phone", value: siteConfig.phoneSecondary, href: `tel:${siteConfig.phoneSecondary}`, icon: Phone },
 ];
 

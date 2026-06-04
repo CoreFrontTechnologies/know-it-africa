@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       registrationId: registration.registration_id,
       studentName: registration.full_name,
       studentPhone: registration.student_phone ?? "",
-      guardianEmail: registration.guardian_email ?? "info@knowitafrica.com",
+      guardianEmail: registration.guardian_email ?? "contact@knowitafrica.com.ng",
       programTitle: registration.event_title ?? "AI & Software Development Bootcamp",
     });
 
