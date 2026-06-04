@@ -47,6 +47,7 @@ Set these in `.env.local` for local development and in Vercel Project Settings f
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+ADMIN_EMAILS=owner@example.com
 NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY=FLWPUBK_TEST_or_LIVE_public_key
 FLUTTERWAVE_SECRET_KEY=FLWSECK_TEST_or_LIVE_secret_key
 FLUTTERWAVE_WEBHOOK_SECRET=your_flutterwave_webhook_secret
@@ -63,7 +64,9 @@ Never expose `SUPABASE_SERVICE_ROLE_KEY` or `FLUTTERWAVE_SECRET_KEY` in browser/
 3. Copy and run all SQL in `database/schema.sql`.
 4. Confirm these tables exist: `events`, `event_modules`, `registrations`, `testimonials`, `partners`, `site_settings`, `admin_activity_logs`.
 5. Go to **Authentication → Users** and create the first admin user.
-6. Copy your project URL, anon key, and service-role key into `.env.local` and Vercel.
+6. Copy the admin user UUID and insert it into `public.admin_users` with the same email.
+7. Add that email to `ADMIN_EMAILS` in `.env.local` and Vercel.
+8. Copy your project URL, anon key, and service-role key into `.env.local` and Vercel.
 
 The schema enables Row Level Security. Public users do not read private registration records; server actions use the service-role key to create and update registration/payment records.
 
@@ -85,9 +88,10 @@ Payment amount is taken from the selected event record on the server, not truste
 ## Admin login setup
 
 1. Create a Supabase Auth user from the Supabase dashboard.
-2. Visit `/admin`.
-3. Login with that Supabase Auth email/password.
-4. Use the admin console to view registrations, payments, events, activity logs, settings, testimonials, and partners.
+2. Insert that user into `public.admin_users` using the SQL comment in `database/schema.sql`.
+3. Add the same email to `ADMIN_EMAILS` in Vercel, for example `owner@example.com,operations@example.com`.
+4. Visit `/admin` and login with the Supabase Auth email/password.
+5. Use the admin console to view registrations, payments, events, activity logs, settings, testimonials, and partners.
 
 Protected admin routes are enforced by middleware and server-side session checks.
 
@@ -150,6 +154,9 @@ Add Supabase variables to `.env.local` and Vercel, then restart/redeploy.
 
 ### Admin login says not configured
 Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+
+### Admin login says unauthorized
+Add the email to `ADMIN_EMAILS`, insert the Auth user into `public.admin_users`, and redeploy/relogin.
 
 ### Registration saves but payment does not start
 Check `FLUTTERWAVE_SECRET_KEY`, `NEXT_PUBLIC_SITE_URL`, selected event status, and event price.

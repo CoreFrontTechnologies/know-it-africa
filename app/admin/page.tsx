@@ -11,7 +11,19 @@ export const metadata = {
   title: "Admin Login | Know It Africa",
 };
 
-export default async function AdminLoginPage() {
+type AdminLoginPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function firstParam(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function AdminLoginPage({ searchParams }: AdminLoginPageProps) {
+  const params = (await searchParams) ?? {};
+  const authError = firstParam(params.error) === "unauthorized"
+    ? "This account is not authorized for the Know It Africa admin panel. Add the email to ADMIN_EMAILS in Vercel and redeploy."
+    : undefined;
   const user = await getAdminUser();
 
   if (user) redirect("/admin/dashboard");
@@ -32,7 +44,7 @@ export default async function AdminLoginPage() {
             <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">Manage registrations, payments, and bootcamp operations.</h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-white/72">Sign in with a Supabase Auth admin account to view learner records and manage payment statuses.</p>
           </div>
-          <AdminLoginForm />
+          <AdminLoginForm initialError={authError} />
         </div>
       </section>
     </main>

@@ -43,7 +43,16 @@ Add them to `.env.local` and Vercel.
 2. Click **Add user**.
 3. Enter your admin email and password.
 4. Confirm the user if Supabase asks for confirmation.
-5. Visit `/admin` and login.
+5. Copy the user UUID from Supabase.
+6. Run this in SQL Editor, replacing the values:
+
+```sql
+insert into public.admin_users (user_id, email, role)
+values ('AUTH_USER_UUID_HERE', 'owner@example.com', 'owner');
+```
+
+7. Add `ADMIN_EMAILS=owner@example.com` in Vercel and `.env.local`.
+8. Visit `/admin` and login.
 
 ## 5. Create/manage events
 
@@ -94,6 +103,7 @@ In Vercel, go to **Project → Settings → Environment Variables** and add:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_EMAILS=owner@example.com
 NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY=
 FLUTTERWAVE_SECRET_KEY=
 FLUTTERWAVE_WEBHOOK_SECRET=
@@ -141,7 +151,9 @@ Use `https://your-domain.com` for `NEXT_PUBLIC_SITE_URL` in production.
 ## 12. Production launch checklist
 
 - Supabase schema installed
-- Admin user created
+- Admin user created in Supabase Auth
+- Admin user inserted into `public.admin_users`
+- `ADMIN_EMAILS` set in Vercel
 - Current event created with `registration_open`
 - Flutterwave test payment passed
 - Live Flutterwave keys added
@@ -154,6 +166,7 @@ Use `https://your-domain.com` for `NEXT_PUBLIC_SITE_URL` in production.
 
 - **404 on Vercel:** confirm production branch is `main` and output directory is not `public`.
 - **Admin login fails:** check Supabase URL/anon key and admin user password.
+- **Admin unauthorized:** add the email to `ADMIN_EMAILS` and insert the user into `public.admin_users`.
 - **Registration unavailable:** create an event with status `registration_open`.
 - **Payment mismatch:** ensure event price in admin is correct; amount is server-controlled.
 - **Webhook not updating:** confirm webhook URL and `FLUTTERWAVE_WEBHOOK_SECRET`.

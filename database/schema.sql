@@ -110,6 +110,15 @@ create table if not exists public.admin_activity_logs (
   created_at timestamptz default now()
 );
 
+create table if not exists public.admin_users (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid unique references auth.users(id) on delete cascade,
+  email text unique not null,
+  role text default 'admin',
+  active boolean default true,
+  created_at timestamptz default now()
+);
+
 create index if not exists events_slug_idx on public.events (slug);
 create index if not exists events_status_featured_idx on public.events (status, featured);
 create index if not exists event_modules_event_sort_idx on public.event_modules (event_id, sort_order);
@@ -121,6 +130,8 @@ create index if not exists registrations_created_at_idx on public.registrations 
 create index if not exists testimonials_status_idx on public.testimonials (status);
 create index if not exists partners_status_idx on public.partners (status);
 create index if not exists admin_activity_logs_created_at_idx on public.admin_activity_logs (created_at desc);
+create index if not exists admin_users_email_idx on public.admin_users (lower(email));
+create index if not exists admin_users_user_id_idx on public.admin_users (user_id);
 
 create or replace function public.set_updated_at()
 returns trigger as $$
@@ -146,6 +157,7 @@ alter table public.testimonials enable row level security;
 alter table public.partners enable row level security;
 alter table public.site_settings enable row level security;
 alter table public.admin_activity_logs enable row level security;
+alter table public.admin_users enable row level security;
 
 -- Public read-only content policies.
 drop policy if exists "Public can read published events" on public.events;
@@ -162,27 +174,52 @@ create policy "Public can read published testimonials" on public.testimonials fo
 drop policy if exists "Public can read published partners" on public.partners;
 create policy "Public can read published partners" on public.partners for select using (status = 'published');
 
--- Authenticated admin policies. Create admin users in Supabase Auth; private data is never public.
+-- Admin policies. Add approved users to public.admin_users after creating them in Supabase Auth.
+create or replace function public.is_active_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.admin_users
+    where user_id = auth.uid()
+      and active = true
+  );
+$$;
+
+drop policy if exists "Admins can read own admin profile" on public.admin_users;
+create policy "Admins can read own admin profile" on public.admin_users for select using (user_id = auth.uid() or public.is_active_admin());
+
+drop policy if exists "Active admins can manage admin users" on public.admin_users;
+create policy "Active admins can manage admin users" on public.admin_users for all using (public.is_active_admin()) with check (public.is_active_admin());
+
 drop policy if exists "Authenticated admins can manage events" on public.events;
-create policy "Authenticated admins can manage events" on public.events for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage events" on public.events for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can manage event modules" on public.event_modules;
-create policy "Authenticated admins can manage event modules" on public.event_modules for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage event modules" on public.event_modules for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can manage registrations" on public.registrations;
-create policy "Authenticated admins can manage registrations" on public.registrations for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage registrations" on public.registrations for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can manage testimonials" on public.testimonials;
-create policy "Authenticated admins can manage testimonials" on public.testimonials for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage testimonials" on public.testimonials for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can manage partners" on public.partners;
-create policy "Authenticated admins can manage partners" on public.partners for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage partners" on public.partners for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can manage settings" on public.site_settings;
-create policy "Authenticated admins can manage settings" on public.site_settings for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Authenticated admins can manage settings" on public.site_settings for all using (public.is_active_admin()) with check (public.is_active_admin());
 
 drop policy if exists "Authenticated admins can read activity logs" on public.admin_activity_logs;
-create policy "Authenticated admins can read activity logs" on public.admin_activity_logs for select using (auth.role() = 'authenticated');
+create policy "Authenticated admins can read activity logs" on public.admin_activity_logs for select using (public.is_active_admin());
+
+
+-- After creating the first Supabase Auth admin user, insert the user here manually:
+-- insert into public.admin_users (user_id, email, role)
+-- values ('AUTH_USER_UUID_HERE', 'admin@yourdomain.com', 'owner');
 
 -- Registrations are inserted by server actions/API routes using SUPABASE_SERVICE_ROLE_KEY.
 -- Do not create a public SELECT policy for registrations.

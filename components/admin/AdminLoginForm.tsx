@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
-export function AdminLoginForm() {
+export function AdminLoginForm({ initialError }: { initialError?: string }) {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(initialError ?? null);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
