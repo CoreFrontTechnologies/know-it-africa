@@ -16,7 +16,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.4fr_0.8fr_1fr_0.8fr]">
         <div>
           <div className="mb-5 flex items-center gap-3">
-            <BrandMark className="bg-white" />
+            <BrandMark />
             <div>
               <p className="text-lg font-black">{siteConfig.name}</p>
               <p className="text-sm text-white/65">{siteConfig.motto}</p>

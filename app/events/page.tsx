@@ -46,7 +46,7 @@ function EventCard({ event }: { event: PublicEvent }) {
       <div className={cn("relative overflow-hidden bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[eventTone(event)])}>
         <div className="absolute inset-0 bg-royal/25" />
         <div className="relative z-10 flex items-start justify-between gap-4">
-          <BrandMark className="bg-white" />
+          <BrandMark />
           <span className="rounded-full bg-gold px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-royal shadow-gold">{eventLabel(event)}</span>
         </div>
         <div className="relative z-10">

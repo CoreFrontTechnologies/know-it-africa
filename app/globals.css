@@ -122,3 +122,57 @@ body {
 .theme-dark .shadow-luxury {
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
 }
+
+/* Production contrast safeguards for dark mode and gradient sections. */
+.theme-dark .text-primary-blue {
+  color: #F6BE00 !important;
+}
+
+.theme-dark .bg-gold,
+.theme-dark .bg-gold\/90 {
+  color: #071B4F !important;
+}
+
+.theme-dark .bg-gold.text-royal,
+.theme-dark .bg-gold .text-royal,
+.theme-dark .shadow-gold.text-royal,
+.theme-dark a.bg-gold,
+.theme-dark button.bg-gold {
+  color: #071B4F !important;
+}
+
+.theme-dark .bg-white\/70,
+.theme-dark .bg-white\/80,
+.theme-dark .bg-white\/90,
+.theme-dark .bg-white\/95 {
+  background-color: rgba(248, 251, 255, 0.12) !important;
+}
+
+.theme-dark .text-white\/55 {
+  color: rgba(248, 251, 255, 0.72) !important;
+}
+
+.theme-dark .text-white\/65,
+.theme-dark .text-white\/70,
+.theme-dark .text-white\/72,
+.theme-dark .text-white\/74,
+.theme-dark .text-white\/75,
+.theme-dark .text-white\/76,
+.theme-dark .text-white\/78,
+.theme-dark .text-white\/80,
+.theme-dark .text-white\/82,
+.theme-dark .text-white\/85 {
+  color: rgba(248, 251, 255, 0.9) !important;
+}
+
+.theme-dark .bg-royal .text-muted-text,
+.theme-dark .pattern-grid .text-muted-text {
+  color: rgba(248, 251, 255, 0.82) !important;
+}
+
+.theme-dark .ring-white\/20,
+.theme-dark .border-white\/10,
+.theme-dark .border-white\/12,
+.theme-dark .border-white\/15 {
+  border-color: rgba(248, 251, 255, 0.22) !important;
+}

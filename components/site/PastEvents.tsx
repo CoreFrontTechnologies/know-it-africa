@@ -16,7 +16,7 @@ const featuredEvents = events.filter((event) => event.category !== "future").sli
 
 export function PastEvents() {
   return (
-    <SectionShell id="events" className="bg-white">
+    <SectionShell id="events">
       <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
         <div>
           <SectionBadge label="Events" />
@@ -48,7 +48,7 @@ export function PastEvents() {
             <div className={cn("relative overflow-hidden bg-gradient-to-br p-6 text-white pattern-grid", toneClasses[event.tone])}>
               <div className="absolute inset-0 bg-royal/35" />
               <div className="relative z-10 flex items-start justify-between gap-4">
-                <BrandMark className="bg-white/95" />
+                <BrandMark />
                 <span className="rounded-full bg-gold px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-royal shadow-gold">
                   {event.status}
                 </span>
