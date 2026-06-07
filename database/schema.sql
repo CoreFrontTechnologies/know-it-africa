@@ -72,6 +72,19 @@ create table if not exists public.registrations (
   updated_at timestamptz default now()
 );
 
+-- Migration-safe upgrades for projects that previously ran the old registrations-only schema.
+alter table public.registrations add column if not exists event_id uuid references public.events(id);
+alter table public.registrations add column if not exists event_title text;
+alter table public.registrations add column if not exists event_slug text;
+alter table public.registrations add column if not exists currency text default 'NGN';
+alter table public.registrations add column if not exists admin_notes text;
+alter table public.registrations add column if not exists amount numeric default 12250;
+alter table public.registrations alter column amount set default 12250;
+alter table public.registrations alter column payment_status set default 'pending';
+alter table public.registrations drop constraint if exists registrations_payment_status_check;
+alter table public.registrations add constraint registrations_payment_status_check
+  check (payment_status in ('pending', 'paid', 'failed', 'cancelled', 'manually_confirmed'));
+
 create table if not exists public.testimonials (
   id uuid primary key default gen_random_uuid(),
   name text not null,
